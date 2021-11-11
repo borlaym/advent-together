@@ -10,6 +10,8 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "firebase-admin": "^10.0.0",
+    "node-fetch": "^3.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -17,10 +19,14 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "tsc",
+    "build-ts": "tsc",
+    "start": "npm run serve",
+    "serve": "tsc && node -r dotenv/config dist/server.js",
+    "watch-node": "nodemon dist/server.js",
+    "watch-ts": "tsc -w",
+    "test": "jest --watch",
+    "client": "react-scripts start"
   },
   "eslintConfig": {
     "extends": [
