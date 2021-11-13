@@ -1,6 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
+import { createCalendar } from './db';
 
 const app = express();
 
@@ -16,6 +17,10 @@ app.use('*', (req, res, next) => {
   next();
 })
 
+app.get('/api/create', (req, res) => {
+  createCalendar().then(calendar => res.json(calendar));
+});
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
 app.use(express.static('build'));
 
@@ -30,4 +35,4 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 app.use('*', errorHandler)
 
-app.listen(9000);
+app.listen(9000, () => console.log('listening on 9000'));
