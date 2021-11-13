@@ -3,11 +3,11 @@
     "module": "esnext",
     "esModuleInterop": true,
     "target": "es6",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
+    "baseUrl": "server",
     "lib": [
       "es2015",
       "DOM",
@@ -26,5 +26,10 @@
   },
   "include": [
     "src",
+    "server/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "server/dist"
   ]
 }
