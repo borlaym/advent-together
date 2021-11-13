@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "server",
+    "baseUrl": ".",
     "lib": [
       "es2015",
       "DOM",
@@ -25,11 +25,9 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src",
     "server/**/*"
   ],
   "exclude": [
-    "dist",
-    "server/dist"
+    "dist"
   ]
 }
