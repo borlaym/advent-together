@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   useParams
 } from "react-router-dom";
 import { Present } from "src/types";
-import getJson from "src/utils/api";
+import getJson, { post } from "src/utils/api";
 import { createAndGetUserId } from "src/utils/userId";
+import CalendarDay from "../CalendarDay/CalendarDay";
 import PresentListItem from "../PresentListItem/PresentListItem";
+import { v4 as uuidV4 } from 'uuid';
 
 export type VisiblePresents = {
   presents: Present[];
@@ -30,6 +32,16 @@ export default function CalendarPage() {
     }
   }, [userId, uuid]);
 
+  const handleSubmit = useCallback((dayNumber: number, content: string) => {
+    const present: Present = {
+      uuid: uuidV4(),
+      day: dayNumber,
+      uploader: userId || '',
+      contentType: 'Text',
+      content
+    };
+    post('/calendar/' + uuid, present);
+  }, [userId, uuid]);
 
   return (
     <div>
@@ -38,10 +50,12 @@ export default function CalendarPage() {
       <div>
         {presentData?.numberOfPresents.map((presents, i) => {
           return (
-            <div key={i}>
-              <div>Dec {i + 1}</div>
-              {presents} presents
-            </div>
+            <CalendarDay
+              key={i}
+              dayNumber={i}
+              numberOfPresents={presents}
+              onSubmitPresent={handleSubmit}
+            />
           )
         })}
       </div>
