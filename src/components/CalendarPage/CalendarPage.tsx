@@ -5,6 +5,7 @@ import {
 import { Present } from "src/types";
 import getJson from "src/utils/api";
 import { createAndGetUserId } from "src/utils/userId";
+import PresentListItem from "../PresentListItem/PresentListItem";
 
 export type VisiblePresents = {
   presents: Present[];
@@ -44,6 +45,12 @@ export default function CalendarPage() {
           )
         })}
       </div>
+      {myPresents && myPresents.length > 0 && <div>
+        <p>My presents</p>
+        <ul>
+          {myPresents.map(p => <PresentListItem key={p.uuid} present={p} />)}
+        </ul>
+      </div>}
     </div>
   )
 }

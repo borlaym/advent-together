@@ -1,4 +1,5 @@
 export type Present = {
+  uuid: string;
   day: number;
   uploader: string;
   contentType: 'Text' | 'Image';
