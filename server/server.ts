@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import { createCalendar } from './db';
+import { addPresent, createCalendar, getVisiblePresents } from './db';
 
 const app = express();
 
@@ -19,6 +19,14 @@ app.use('*', (req, res, next) => {
 
 app.get('/api/create', (req, res) => {
   createCalendar().then(calendar => res.json(calendar));
+});
+
+app.get('/api/calendar/:uuid', (req, res) => {
+  getVisiblePresents(req.params.uuid as string).then(visiblePresents => res.json(visiblePresents));
+});
+
+app.post('/api/calendar/:uuid', (req, res) => {
+  addPresent(req.params.uuid as string, req.body).then(present => res.json(present));
 });
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
