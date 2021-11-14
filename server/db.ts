@@ -51,11 +51,10 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
       throw new Error("Can't find calendar with that id");
     }
 
+    const presents = calendar.presents || [];
+
     function presentsOnDay(day: number): number {
-      if (!calendar) {
-        return 0;
-      }
-      return calendar.presents.reduce((acc, present) => {
+      return presents.reduce((acc, present) => {
         if (present.day === day) {
           return acc + 1;
         }
@@ -65,7 +64,7 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
 
     const dayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
     return {
-      presents: calendar.presents.filter(p => p.day <= dayInDecember),
+      presents: presents.filter(p => p.day <= dayInDecember),
       numberOfPresents: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(presentsOnDay)
     }
   });
