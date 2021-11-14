@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import { Present } from "src/types";
 import getJson from "src/utils/api";
+import { createAndGetUserId } from "src/utils/userId";
 
 export type VisiblePresents = {
   presents: Present[];
@@ -13,6 +14,7 @@ export type VisiblePresents = {
 export default function CalendarPage() {
   const { uuid } = useParams();
   const [presentData, setPresentData] = useState<VisiblePresents | null>(null);
+  const userId = createAndGetUserId(uuid);
 
   useEffect(() => {
     getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => setPresentData(presents));
