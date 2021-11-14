@@ -51,7 +51,7 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
       throw new Error("Can't find calendar with that id");
     }
 
-    const presents = Object.values(calendar.presents) || [];
+    const presents = calendar.presents ? Object.values(calendar.presents) : [];
 
     function presentsOnDay(day: number): number {
       return presents.reduce((acc, present) => {
@@ -75,7 +75,22 @@ export function getPresentsOfUser(calendarId: string, userId: string): Promise<P
     if (!calendar) {
       throw new Error("Can't find calendar with that id");
     }
-    const presents = Object.values(calendar.presents) || [];
+    const presents = calendar.presents ? Object.values(calendar.presents) : [];
     return presents.filter(p => p.uploader === userId);
+  });
+}
+
+export function deletePresent(calendarId: string, userId: string, presentId: string): Promise<boolean> {
+  return getCalendarRefByUuid(calendarId).then(ref => {
+    return firebase.ref(`/calendar/${ref}/presents`).get().then(snapshot => {
+      const data: { [key: string]: Present } = snapshot.val() || {};
+      const presentRef = Object.keys(data).find(key => {
+        return data[key].uploader === userId && data[key].uuid === presentId;
+      });
+      if (!presentRef) {
+        return false;
+      }
+      return firebase.ref(`/calendar/${ref}/presents/${presentRef}`).remove().then(() => true);
+    });
   });
 }

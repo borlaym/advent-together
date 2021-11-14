@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import {
   useParams
 } from "react-router-dom";
-import { Present } from "src/types";
-import getJson, { post } from "src/utils/api";
-import { createAndGetUserId } from "src/utils/userId";
+import { Present } from "../../types";
+import getJson, { post } from "../../utils/api";
+import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import PresentListItem from "../PresentListItem/PresentListItem";
 import { v4 as uuidV4 } from 'uuid';
@@ -43,6 +43,17 @@ export default function CalendarPage() {
     post('/calendar/' + uuid, present);
   }, [userId, uuid]);
 
+  const handleDelete = useCallback((present: Present) => {
+    post('/calendar/' + uuid + '/remove', {
+      presentId: present.uuid,
+      userId
+    }).then(response => {
+      if (response === true) {
+        setMyPresents(myPresents => myPresents.filter(p => p.uuid !== present.uuid));
+      }
+    });
+  }, [userId, uuid]);
+
   return (
     <div>
       <h1>Calendar page</h1>
@@ -62,7 +73,7 @@ export default function CalendarPage() {
       {myPresents && myPresents.length > 0 && <div>
         <p>My presents</p>
         <ul>
-          {myPresents.map(p => <PresentListItem key={p.uuid} present={p} />)}
+          {myPresents.map(p => <PresentListItem key={p.uuid} present={p} onDelete={handleDelete} />)}
         </ul>
       </div>}
     </div>

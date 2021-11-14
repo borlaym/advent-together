@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import { addPresent, createCalendar, getPresentsOfUser, getVisiblePresents } from './db';
+import { addPresent, createCalendar, deletePresent, getPresentsOfUser, getVisiblePresents } from './db';
 
 const app = express();
 
@@ -31,6 +31,10 @@ app.get('/api/calendar/:uuid', (req, res) => {
 
 app.post('/api/calendar/:uuid', (req, res) => {
   addPresent(req.params.uuid as string, req.body).then(present => res.json(present));
+});
+
+app.post('/api/calendar/:uuid/remove', (req, res) => {
+  deletePresent(req.params.uuid as string, req.body.userId, req.body.presentId).then(present => res.json(present));
 });
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
