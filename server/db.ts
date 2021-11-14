@@ -51,7 +51,7 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
       throw new Error("Can't find calendar with that id");
     }
 
-    const presents = calendar.presents || [];
+    const presents = Object.values(calendar.presents) || [];
 
     function presentsOnDay(day: number): number {
       return presents.reduce((acc, present) => {
@@ -75,7 +75,7 @@ export function getPresentsOfUser(calendarId: string, userId: string): Promise<P
     if (!calendar) {
       throw new Error("Can't find calendar with that id");
     }
-    const presents = calendar.presents || [];
+    const presents = Object.values(calendar.presents) || [];
     return presents.filter(p => p.uploader === userId);
   });
 }
