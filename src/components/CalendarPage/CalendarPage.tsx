@@ -14,11 +14,20 @@ export type VisiblePresents = {
 export default function CalendarPage() {
   const { uuid } = useParams();
   const [presentData, setPresentData] = useState<VisiblePresents | null>(null);
+  const [myPresents, setMyPresents] = useState<Present[] | null>(null);
   const userId = createAndGetUserId(uuid);
 
   useEffect(() => {
-    getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => setPresentData(presents));
+    if (uuid) {
+      getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => setPresentData(presents));
+    }
   }, [uuid]);
+
+  useEffect(() => {
+    if (uuid && userId) {
+      getJson<Present[]>('/calendar/' + uuid + '/' + userId).then((presents: Present[]) => setMyPresents(presents));
+    }
+  }, [userId, uuid]);
 
 
   return (

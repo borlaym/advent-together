@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
-import { addPresent, createCalendar, getVisiblePresents } from './db';
+import { addPresent, createCalendar, getPresentsOfUser, getVisiblePresents } from './db';
 
 const app = express();
 
@@ -19,6 +19,10 @@ app.use('*', (req, res, next) => {
 
 app.get('/api/create', (req, res) => {
   createCalendar().then(calendar => res.json(calendar));
+});
+
+app.get('/api/calendar/:uuid/:userId', (req, res) => {
+  getPresentsOfUser(req.params.uuid as string, req.params.userId).then(presents => res.json(presents));
 });
 
 app.get('/api/calendar/:uuid', (req, res) => {

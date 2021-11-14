@@ -69,3 +69,13 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
     }
   });
 }
+
+export function getPresentsOfUser(calendarId: string, userId: string): Promise<Present[]> {
+  return getCalendarByUuid(calendarId).then(calendar => {
+    if (!calendar) {
+      throw new Error("Can't find calendar with that id");
+    }
+    const presents = calendar.presents || [];
+    return presents.filter(p => p.uploader === userId);
+  });
+}
