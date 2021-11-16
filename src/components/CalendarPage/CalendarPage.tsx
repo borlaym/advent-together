@@ -8,6 +8,23 @@ import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import PresentListItem from "../PresentListItem/PresentListItem";
 import { v4 as uuidV4 } from 'uuid';
+import styled from "@emotion/styled";
+
+const Wrapper = styled.div`
+  margin: 2rem auto;
+  max-width: calc(calc(var(--size) + var(--margin)) * 6);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  /* gap: 1rem; */
+`;
+
+const Row = styled.section`
+  width: calc(calc(var(--size) + var(--margin)) * 2);
+  height: calc(calc(var(--size) + var(--margin)) * 2);
+`;
+
 
 export type VisiblePresents = {
   presents: Present[];
@@ -58,7 +75,7 @@ export default function CalendarPage() {
     <div>
       <h1>Calendar page</h1>
       <p>uuid: {uuid}</p>
-      <div>
+      <Wrapper>
         {presentData?.numberOfPresents.map((presents, i) => {
           return (
             <CalendarDay
@@ -69,7 +86,7 @@ export default function CalendarPage() {
             />
           )
         })}
-      </div>
+      </Wrapper>
       {myPresents && myPresents.length > 0 && <div>
         <p>My presents</p>
         <ul>
