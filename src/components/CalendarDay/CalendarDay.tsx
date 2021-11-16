@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
-import styled from '@emotion/styled';
-import { css } from '@emotion/css';
+import styled from '@emotion/styled/macro';
+import { css } from '@emotion/css/macro';
 
 const Icon = styled.span`
   font-family: Advent;
@@ -9,7 +9,7 @@ const Icon = styled.span`
 `;
 
 const DayContainer = styled.div<{
-  dimensions: 'tall' | 'wide' | 'large';
+  dimensions?: 'tall' | 'wide' | 'large';
 }>`
   position: relative;
   float: left;
@@ -78,8 +78,9 @@ type Props = {
   dayNumber: number;
   numberOfPresents: number;
   onSubmitPresent: (dayNumber: number, content: string) => void;
-  dimensions: 'tall' | 'wide' | 'large';
+  dimensions?: 'tall' | 'wide' | 'large';
   color: keyof typeof colorValues;
+  icon: string;
 }
 
 export default function CalendarDay({
@@ -87,7 +88,8 @@ export default function CalendarDay({
   numberOfPresents,
   onSubmitPresent,
   dimensions,
-  color
+  color,
+  icon
 }: Props) {
   const [newPresentInput, setNewPresentInput] = useState('');
   const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,9 +106,10 @@ export default function CalendarDay({
         backgroundColor: colorValues[color]
       }}
     >
-      <DayNumber>Dec {dayNumber + 1}</DayNumber>
-      {numberOfPresents} presents
-      <input type="text" value={newPresentInput} onChange={handleChange} /><button onClick={submit}>Add present</button>
+      <Icon>{icon}</Icon>
+      <DayNumber>{dayNumber + 1}</DayNumber>
+      {/* {numberOfPresents} presents */}
+      {/* <input type="text" value={newPresentInput} onChange={handleChange} /><button onClick={submit}>Add present</button> */}
     </DayContainer>
   )
 }
