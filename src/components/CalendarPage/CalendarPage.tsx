@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
-  max-width: calc(calc(var(--size) + var(--margin)) * 6);
+  max-width: calc(calc(var(--size) + var(--margin)) * 4);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
