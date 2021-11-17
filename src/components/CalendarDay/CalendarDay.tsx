@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from "react";
-import styled from '@emotion/styled/macro';
-import { css } from '@emotion/css/macro';
+import styled, { css } from "styled-components";
 
 const Icon = styled.span`
   font-family: Advent;

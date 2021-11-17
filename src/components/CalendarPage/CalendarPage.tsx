@@ -8,7 +8,7 @@ import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import PresentListItem from "../PresentListItem/PresentListItem";
 import { v4 as uuidV4 } from 'uuid';
-import styled from "@emotion/styled/macro";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
