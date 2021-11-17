@@ -4,6 +4,9 @@ import styled, { css } from "styled-components";
 const Icon = styled.span`
   font-family: Advent;
   font-size: 140px;
+  @media screen and (max-width: 440px) {
+    font-size: 100px;
+  }
   color: rgba(255 255 255 / 0.8);
 `;
 
@@ -14,10 +17,11 @@ const DayContainer = styled.div<{
   float: left;
   width: var(--size);
   height: var(--size);
-  /* border: 1px solid rgba(120 120 120 / 0.5); */
-  font-size: 36px;
-  text-align: right;
-  padding: 1rem 1rem 0 0;
+  border: 1px solid rgba(0 0 0 / 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
   margin: 0 var(--margin) var(--margin) 0;
   box-sizing: border-box;
   border-radius: 5px;
@@ -33,7 +37,10 @@ const DayContainer = styled.div<{
     height: calc(calc(var(--size) * 2) + var(--margin));
 
     ${Icon} {
-      font-size: 260px;
+      font-size: 200px;
+      @media screen and (max-width: 440px) {
+        font-size: 120px;
+      }
     }
   `}
   ${props => props.dimensions === 'wide' && css`

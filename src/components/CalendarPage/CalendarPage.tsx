@@ -23,6 +23,9 @@ const Wrapper = styled.div`
 const Row = styled.section`
   width: calc(calc(var(--size) + var(--margin)) * 2);
   height: calc(calc(var(--size) + var(--margin)) * 2);
+  @media screen and (max-width: 440px) {
+    margin-left: var(--margin);
+  }
 `;
 
 
