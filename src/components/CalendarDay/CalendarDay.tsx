@@ -109,6 +109,7 @@ export default function CalendarDay({
   }, [dayNumber, newPresentInput, onSubmitPresent]);
   return (
     <DayContainer
+      id={`day_${dayNumber}`}
       dimensions={dimensions}
       style={{
         backgroundColor: colorValues[color]

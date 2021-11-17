@@ -52,6 +52,14 @@ export default function CalendarPage() {
     }
   }, [userId, uuid]);
 
+  useEffect(function scrollDayIntoView() {
+    const d = new Date();
+    if (d.getMonth() === 11 && (d.getDate() < 25)) {
+      const currentDay = document.getElementById(`day_${d.getDate() - 1}`);
+      currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+  });
+
   const handleSubmit = useCallback((dayNumber: number, content: string) => {
     const present: Present = {
       uuid: uuidV4(),
