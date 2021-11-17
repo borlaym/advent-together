@@ -66,10 +66,11 @@ const colorValues = {
   green: '#146B3A',
   darkgreen: '#165B33',
   blue: '#0f354f',
+  darkblue: '#0c142e',
   red: '#EA4630',
   darkred: '#BB2528',
-  yellow: '#F8B229',
   purple: '#57000c',
+  yellow: '#F8B229',
   beige: '#cc954a',
 };
 
