@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 const Icon = styled.span`
   font-family: Advent;
   font-size: 140px;
+  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
   @media screen and (max-width: 440px) {
     font-size: 100px;
   }
@@ -17,7 +18,7 @@ const DayContainer = styled.div<{
   float: left;
   width: var(--size);
   height: var(--size);
-  border: 1px solid rgba(0 0 0 / 0.3);
+  border: 1px solid rgba(50 50 50 / 0.3);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -30,8 +31,7 @@ const DayContainer = styled.div<{
 
   transition: transform 150ms ease-in-out;
 
-  /* box-shadow: 5px 5px 18px 4px rgba(100 100 100 / 0.75) */
-  box-shadow: 5px 5px 10px 0 rgba(52, 52, 52, 0.69);
+  box-shadow: 5px 5px 10px 0 rgba(50, 50, 50, 0.7);
 
   ${props => props.dimensions === 'tall' && css`
     height: calc(calc(var(--size) * 2) + var(--margin));
@@ -39,7 +39,7 @@ const DayContainer = styled.div<{
     ${Icon} {
       font-size: 200px;
       @media screen and (max-width: 440px) {
-        font-size: 120px;
+        font-size: 160px;
       }
     }
   `}
@@ -67,6 +67,7 @@ const DayNumber = styled.span`
   left: 1rem;
   font-size: 20px;
   color: rgba(255 255 255 / 0.9);
+  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
 `;
 
 const colorValues = {
