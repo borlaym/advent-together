@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
-  max-width: calc(calc(var(--size) + var(--margin)) * 6);
+  max-width: calc(calc(var(--size) + var(--margin)) * 4);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -23,6 +23,9 @@ const Wrapper = styled.div`
 const Row = styled.section`
   width: calc(calc(var(--size) + var(--margin)) * 2);
   height: calc(calc(var(--size) + var(--margin)) * 2);
+  @media screen and (max-width: 440px) {
+    margin-left: var(--margin);
+  }
 `;
 
 
@@ -48,6 +51,14 @@ export default function CalendarPage() {
       getJson<Present[]>('/calendar/' + uuid + '/' + userId).then((presents: Present[]) => setMyPresents(presents));
     }
   }, [userId, uuid]);
+
+  useEffect(function scrollDayIntoView() {
+    const d = new Date();
+    if (d.getMonth() === 11 && (d.getDate() < 25)) {
+      const currentDay = document.getElementById(`day_${d.getDate() - 1}`);
+      currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+  });
 
   const handleSubmit = useCallback((dayNumber: number, content: string) => {
     const present: Present = {
@@ -75,39 +86,44 @@ export default function CalendarPage() {
     <div>
       <Wrapper>
         <Row>
-          <CalendarDay color="red" dayNumber={12} numberOfPresents={presentData?.numberOfPresents[12]} icon="r" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="red" dayNumber={12} numberOfPresents={presentData?.numberOfPresents[12]} icon="R" onSubmitPresent={handleSubmit} />
           <CalendarDay color="green" dayNumber={7} numberOfPresents={presentData?.numberOfPresents[7]} icon="a" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="blue" dayNumber={21} numberOfPresents={presentData?.numberOfPresents[21]} icon="m" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="yellow" dayNumber={18} numberOfPresents={presentData?.numberOfPresents[18]} icon="i" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="yellow" dayNumber={21} numberOfPresents={presentData?.numberOfPresents[21]} icon="m" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="blue" dayNumber={18} numberOfPresents={presentData?.numberOfPresents[18]} icon="i" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="red" dayNumber={14} numberOfPresents={presentData?.numberOfPresents[14]} dimensions="tall" icon="g" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkred" dayNumber={14} numberOfPresents={presentData?.numberOfPresents[14]} dimensions="tall" icon="g" onSubmitPresent={handleSubmit} />
           <CalendarDay color="yellow" dayNumber={2} numberOfPresents={presentData?.numberOfPresents[2]} icon="x" onSubmitPresent={handleSubmit} />
           <CalendarDay color="blue" dayNumber={9} numberOfPresents={presentData?.numberOfPresents[9]} icon="j" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="purple" dayNumber={14} numberOfPresents={presentData?.numberOfPresents[14]} dimensions="wide" icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={17} numberOfPresents={presentData?.numberOfPresents[17]} icon="p" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={22} numberOfPresents={presentData?.numberOfPresents[22]} icon="l" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="purple" dayNumber={1} numberOfPresents={presentData?.numberOfPresents[1]} dimensions="wide" icon="A" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="beige" dayNumber={17} numberOfPresents={presentData?.numberOfPresents[17]} icon="l" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkblue" dayNumber={6} numberOfPresents={presentData?.numberOfPresents[6]} icon="p" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="darkgreen" dayNumber={24} numberOfPresents={presentData?.numberOfPresents[24]} dimensions="large" icon="h" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkgreen" dayNumber={23} numberOfPresents={presentData?.numberOfPresents[23]} dimensions="large" icon="v" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="beige" dayNumber={15} numberOfPresents={presentData?.numberOfPresents[15]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={16} numberOfPresents={presentData?.numberOfPresents[16]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={17} numberOfPresents={presentData?.numberOfPresents[17]} dimensions="wide" icon="k" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="blue" dayNumber={8} numberOfPresents={presentData?.numberOfPresents[8]} icon="y" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkred" dayNumber={16} numberOfPresents={presentData?.numberOfPresents[16]} icon="f" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="green" dayNumber={20} numberOfPresents={presentData?.numberOfPresents[20]} dimensions="wide" icon="O" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="beige" dayNumber={18} numberOfPresents={presentData?.numberOfPresents[18]} dimensions="tall" icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={19} numberOfPresents={presentData?.numberOfPresents[19]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={20} numberOfPresents={presentData?.numberOfPresents[20]} icon="k" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="yellow" dayNumber={10} numberOfPresents={presentData?.numberOfPresents[10]} icon="C" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="purple" dayNumber={4} numberOfPresents={presentData?.numberOfPresents[4]} icon="V" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="blue" dayNumber={0} numberOfPresents={presentData?.numberOfPresents[0]} icon="b" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="red" dayNumber={13} numberOfPresents={presentData?.numberOfPresents[13]}  icon="H" onSubmitPresent={handleSubmit} />
         </Row>
         <Row>
-          <CalendarDay color="beige" dayNumber={21} numberOfPresents={presentData?.numberOfPresents[21]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={22} numberOfPresents={presentData?.numberOfPresents[22]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={23} numberOfPresents={presentData?.numberOfPresents[23]} icon="k" onSubmitPresent={handleSubmit} />
-          <CalendarDay color="beige" dayNumber={24} numberOfPresents={presentData?.numberOfPresents[24]} icon="k" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="red" dayNumber={5} numberOfPresents={presentData?.numberOfPresents[5]} dimensions="tall" icon="s" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkblue" dayNumber={15} numberOfPresents={presentData?.numberOfPresents[15]} icon="E" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="yellow" dayNumber={19} numberOfPresents={presentData?.numberOfPresents[19]} icon="F" onSubmitPresent={handleSubmit} />
+        </Row>
+        <Row>
+          <CalendarDay color="beige" dayNumber={22} numberOfPresents={presentData?.numberOfPresents[22]} dimensions="wide" icon="X" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="darkred" dayNumber={11} numberOfPresents={presentData?.numberOfPresents[11]} icon="c" onSubmitPresent={handleSubmit} />
+          <CalendarDay color="green" dayNumber={3} numberOfPresents={presentData?.numberOfPresents[3]}  icon="T" onSubmitPresent={handleSubmit} />
         </Row>
       </Wrapper>
       {myPresents && myPresents.length > 0 && <div>
