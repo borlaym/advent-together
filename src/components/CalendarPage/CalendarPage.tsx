@@ -10,6 +10,7 @@ import styled from "styled-components";
 import UploadForm from "../UploadForm/UploadForm";
 import { DispatchContext, VisiblePresents } from "../DataProvider/DataProvider";
 import { getCurrentDay } from "../../utils/getCurrentDay";
+import Presentation from "../Presentation/Presentation";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
@@ -33,6 +34,7 @@ export default function CalendarPage() {
   const { uuid } = useParams();
   const dispatch = useContext(DispatchContext);
   const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
+  const [isPresentationOpen, setIsPresentationOpen] = useState(false);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const userId = createAndGetUserId(uuid);
 
@@ -71,13 +73,14 @@ export default function CalendarPage() {
     setSelectedDay(null);
   }, []);
   const openUploadForm = useCallback(() => setIsUploadFormOpen(true), []);
+  const closePresentation = useCallback(() => setIsPresentationOpen(false), []);
 
   const handleDayClick = useCallback((clickedDayNumber: number) => {
+    setSelectedDay(clickedDayNumber);
     const dayInDecember = getCurrentDay();
     if (dayInDecember >= clickedDayNumber && dayInDecember > -1) {
-      // TODO: open presents modal
+      setIsPresentationOpen(true);
     } else {
-      setSelectedDay(clickedDayNumber);
       openUploadForm();
     }
   }, [openUploadForm]);
@@ -132,6 +135,12 @@ export default function CalendarPage() {
           calendarId={uuid}
           defaultSelectedDay={selectedDay}
           onClose={closeUploadForm}
+        />
+      )}
+      {isPresentationOpen && (
+        <Presentation
+          dayNumber={selectedDay}
+          onClose={closePresentation}
         />
       )}
     </div>
