@@ -84,8 +84,6 @@ const colorValues = {
 
 type Props = {
   dayNumber: number;
-  numberOfPresents: number;
-  onSubmitPresent: (dayNumber: number, content: string) => void;
   dimensions?: 'tall' | 'wide' | 'large';
   color: keyof typeof colorValues;
   icon: string;
@@ -93,20 +91,11 @@ type Props = {
 
 export default function CalendarDay({
   dayNumber,
-  numberOfPresents,
-  onSubmitPresent,
   dimensions,
   color,
   icon
 }: Props) {
-  const [newPresentInput, setNewPresentInput] = useState('');
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPresentInput(event.target.value);
-  }, []);
-  const submit = useCallback(() => {
-    onSubmitPresent(dayNumber, newPresentInput);
-    setNewPresentInput('');
-  }, [dayNumber, newPresentInput, onSubmitPresent]);
+
   return (
     <DayContainer
       id={`day_${dayNumber}`}
@@ -117,8 +106,6 @@ export default function CalendarDay({
     >
       <Icon>{icon}</Icon>
       <DayNumber>{dayNumber + 1}</DayNumber>
-      {/* {numberOfPresents} presents */}
-      {/* <input type="text" value={newPresentInput} onChange={handleChange} /><button onClick={submit}>Add present</button> */}
     </DayContainer>
   )
 }

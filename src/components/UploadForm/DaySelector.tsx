@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 
 type Props = {
-  defaultSelected?: number;
+  selectedDay?: number;
   numberOfPresents: number[];
   onChange: (day: number) => void;
 }
@@ -10,6 +10,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: flex-start;
 `;
 
 const Day = styled.div`
@@ -17,6 +18,7 @@ const Day = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 0 5px;
+  cursor: pointer;
 `;
 
 const PresentsIndicator = styled.div`
@@ -27,7 +29,6 @@ const PresentsIndicator = styled.div`
 `
 
 const DayNumber = styled.div<{ isSelected?: boolean }>`
-  font-family: "Comic Sans", "Comic Sans MS", "Chalkboard", "ChalkboardSE-Regular", sans-serif;
   font-size: 16px;
   color: black;
 
@@ -37,7 +38,7 @@ const DayNumber = styled.div<{ isSelected?: boolean }>`
 `;
 
 export default function DaySelector({
-  defaultSelected,
+  selectedDay,
   numberOfPresents,
   onChange
 }: Props) {
@@ -61,16 +62,16 @@ export default function DaySelector({
           if (n === 0) {
             return 0;
           }
-          return Math.floor(((n - minPresents) / range) * 3);
+          return Math.min(Math.ceil(((n - minPresents) / range) * 3), n);
         })();
         return (
-          <Day key={i}>
+          <Day key={i} onClick={() => onChange(i)}>
             <PresentsIndicator>
               {(new Array(indicator)).fill(true).map((_, i) => (
                 <div key={i}>h</div>
               ))}
             </PresentsIndicator>
-            <DayNumber>{i + 1}</DayNumber>
+            <DayNumber isSelected={i === selectedDay}>{i + 1}</DayNumber>
           </Day>
         );
       })}
