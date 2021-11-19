@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
-import { createAndGetUserId, getUserName } from "../../utils/userId";
+import { createAndGetUserId, getUserName, saveUserName } from "../../utils/userId";
 import DaySelector from "./DaySelector";
 import PresentListItem from "../PresentListItem/PresentListItem";
 import { Present } from "../../types";
@@ -50,9 +50,13 @@ const Nameinput = styled.input`
   box-sizing: border-box;
 `;
 
+const ErrorDisplay = styled.p`
+  color: red;
+`;
+
 type Props = {
   calendarId: string;
-  defaultSelectedDay?: number;
+  defaultSelectedDay: number | null;
   numberOfPresents: number[];
 }
 
@@ -63,23 +67,37 @@ export default function UploadForm({
 }: Props) {
 
   const [selectedDay, setSelectedDay] = useState(defaultSelectedDay);
-  const handleDayChange = useCallback((day: number) => setSelectedDay(day), []);
   const [username, setUsername] = useState(getUserName(calendarId) || '');
   const userId = createAndGetUserId(calendarId);
   const contentRef = useRef(null);
+  const [error, setError] = useState('');
 
   const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value), []);
+  const handleDayChange = useCallback((day: number) => {
+    setSelectedDay(day);
+    setError('');
+  }, []);
 
   const handleSubmit = useCallback(() => {
+    const content = contentRef.current?.value;
+    if (!content) {
+      return setError('Please specify a content');
+    }
+    if (!selectedDay) {
+      return setError('Please select a day');
+    }
     const present: Present = {
       uuid: uuidV4(),
       day: selectedDay,
       uploader: userId || '',
+      uploaderName: username,
       contentType: 'Text',
-      content: contentRef.current?.value
+      content
     };
     post('/calendar/' + calendarId, present);
-  }, [calendarId, selectedDay, userId]);
+    saveUserName(calendarId, username);
+    contentRef.current.value = '';
+  }, [calendarId, selectedDay, userId, username]);
 
   return (
     <Background>
@@ -95,6 +113,11 @@ export default function UploadForm({
         <p>Let people know who sent this present</p>
         <Nameinput type="text" value={username} placeholder="Set your name" onChange={handleNameChange} />
         <button onClick={handleSubmit}>Send</button>
+        {error && (
+          <ErrorDisplay>
+            {error}
+          </ErrorDisplay>
+        )}
       </Modal>
     </Background>
   )

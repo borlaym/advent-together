@@ -123,6 +123,7 @@ export default function CalendarPage() {
         <UploadForm
           numberOfPresents={presentData.numberOfPresents}
           calendarId={uuid}
+          defaultSelectedDay={null}
         />
       )}
     </div>

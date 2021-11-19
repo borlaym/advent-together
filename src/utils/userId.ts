@@ -12,7 +12,7 @@ export function createAndGetUserId(calendarId?: string): string | void {
     data = {};
   }
   if (data[calendarId]) {
-    return calendarId;
+    return data[calendarId];
   }
   const newId = uuid();
   data[calendarId] = newId;
@@ -29,12 +29,12 @@ export function getUserName(calendarId: string): string | void {
     data = {};
   }
   if (data[calendarId]) {
-    return calendarId;
+    return data[calendarId];
   }
   return '';
 }
 
-export function setUserName(calendarId: string, name: string): string | void {
+export function saveUserName(calendarId: string, name: string): string | void {
   const rawData = window.localStorage.getItem('userNames');
   let data;
   try {
