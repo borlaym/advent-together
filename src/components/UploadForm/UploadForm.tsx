@@ -22,6 +22,7 @@ const Background = styled.div`
 `;
 
 const Modal = styled.div`
+  position: relative;
   width: 90%;
   max-width: 700px;
   min-height: 300px;
@@ -56,14 +57,22 @@ const ErrorDisplay = styled.p`
   color: red;
 `;
 
+const CloseButton = styled.div`
+  position: absolute;
+  right: 1em;
+  top: 1em;
+`;
+
 type Props = {
   calendarId: string;
   defaultSelectedDay: number | null;
+  onClose: () => void;
 }
 
 export default function UploadForm({
   calendarId,
-  defaultSelectedDay
+  defaultSelectedDay,
+  onClose
 }: Props) {
   const { presentData, myPresents } = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
@@ -120,9 +129,10 @@ export default function UploadForm({
   }, [calendarId, dispatch, userId]);
 
   return (
-    <Background>
-      <Modal>
+    <Background onClick={onClose}>
+      <Modal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
         <h1>Upload form</h1>
+        <CloseButton onClick={onClose}>x</CloseButton>
         <DaySelector
           selectedDay={selectedDay}
           numberOfPresents={numberOfPresents}

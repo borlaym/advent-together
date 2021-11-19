@@ -65,12 +65,10 @@ export default function CalendarPage() {
   });
 
   const handleDelete = useCallback((present: Present) => {
-    post('/calendar/' + uuid + '/remove', {
-      presentId: present.uuid,
-      userId
-    });
+
   }, [userId, uuid]);
 
+  const closeUploadForm = useCallback(() => setIsUploadFormOpen(false), []);
   const openUploadForm = useCallback(() => setIsUploadFormOpen(true), []);
 
   return (
@@ -122,6 +120,7 @@ export default function CalendarPage() {
         <UploadForm
           calendarId={uuid}
           defaultSelectedDay={null}
+          onClose={closeUploadForm}
         />
       )}
     </div>
