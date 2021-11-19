@@ -26,7 +26,8 @@ app.get('/api/calendar/:uuid/:userId', (req, res) => {
 });
 
 app.get('/api/calendar/:uuid', (req, res) => {
-  getVisiblePresents(req.params.uuid as string).then(visiblePresents => res.json(visiblePresents));
+  const forceDay = req.headers['x-force-day'] !== null ? Number(req.headers['x-force-day']) : null;
+  getVisiblePresents(req.params.uuid as string, forceDay).then(visiblePresents => res.json(visiblePresents));
 });
 
 app.post('/api/calendar/:uuid', (req, res) => {

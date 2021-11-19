@@ -3,12 +3,13 @@ import {
   useParams
 } from "react-router-dom";
 import { Present } from "../../types";
-import getJson, { post } from "../../utils/api";
+import getJson from "../../utils/api";
 import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import styled from "styled-components";
 import UploadForm from "../UploadForm/UploadForm";
 import { DispatchContext, VisiblePresents } from "../DataProvider/DataProvider";
+import { getCurrentDay } from "../../utils/getCurrentDay";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
@@ -58,9 +59,9 @@ export default function CalendarPage() {
   }, [dispatch, userId, uuid]);
 
   useEffect(function scrollDayIntoView() {
-    const d = new Date();
-    if (d.getMonth() === 11 && (d.getDate() < 25)) {
-      const currentDay = document.getElementById(`day_${d.getDate() - 1}`);
+    const dayInDecember = getCurrentDay();
+    if (dayInDecember > -1) {
+      const currentDay = document.getElementById(`day_${dayInDecember}`);
       currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
   });
@@ -72,7 +73,7 @@ export default function CalendarPage() {
   const openUploadForm = useCallback(() => setIsUploadFormOpen(true), []);
 
   const handleDayClick = useCallback((clickedDayNumber: number) => {
-    const dayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+    const dayInDecember = getCurrentDay();
     if (dayInDecember <= clickedDayNumber && dayInDecember > -1) {
       // TODO: open presents modal
     } else {

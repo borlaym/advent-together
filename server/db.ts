@@ -44,7 +44,7 @@ export type VisiblePresents = {
   numberOfPresents: number[]
 }
 
-export function getVisiblePresents(calendarId: string): Promise<VisiblePresents> {
+export function getVisiblePresents(calendarId: string, forceDay: number | null): Promise<VisiblePresents> {
   return getCalendarByUuid(calendarId).then(calendar => {
 
     if (!calendar) {
@@ -62,7 +62,10 @@ export function getVisiblePresents(calendarId: string): Promise<VisiblePresents>
       }, 0);
     }
 
-    const dayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+    const actualDayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+    const canForceDay = process.env.NODE_ENV !== 'production';
+    const dayInDecember = forceDay !== null && canForceDay ? forceDay : actualDayInDecember;
+
     return {
       presents: presents.filter(p => p.day <= dayInDecember),
       numberOfPresents: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(presentsOnDay)
