@@ -64,7 +64,7 @@ export default function CalendarPage() {
       const currentDay = document.getElementById(`day_${dayInDecember}`);
       currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
-  });
+  }, []);
 
   const closeUploadForm = useCallback(() => {
     setIsUploadFormOpen(false);
@@ -74,7 +74,7 @@ export default function CalendarPage() {
 
   const handleDayClick = useCallback((clickedDayNumber: number) => {
     const dayInDecember = getCurrentDay();
-    if (dayInDecember <= clickedDayNumber && dayInDecember > -1) {
+    if (dayInDecember >= clickedDayNumber && dayInDecember > -1) {
       // TODO: open presents modal
     } else {
       setSelectedDay(clickedDayNumber);

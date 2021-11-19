@@ -62,6 +62,8 @@ const CloseButton = styled.div`
   position: absolute;
   right: 1em;
   top: 1em;
+  padding: 1em;
+  cursor: pointer;
 `;
 
 type Props = {
