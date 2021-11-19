@@ -17,8 +17,8 @@ app.use('*', (req, res, next) => {
   next();
 })
 
-app.get('/api/create', (req, res) => {
-  createCalendar().then(calendar => res.json(calendar));
+app.post('/api/create', (req, res) => {
+  createCalendar(req.body.name).then(calendar => res.json(calendar));
 });
 
 app.get('/api/calendar/:uuid/:userId', (req, res) => {

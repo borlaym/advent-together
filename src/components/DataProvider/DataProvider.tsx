@@ -1,19 +1,20 @@
 import React, { Dispatch, useReducer } from "react";
 import { Present } from "../../types";
 
-export type VisiblePresents = {
+export type CalendarData = {
   presents: Present[];
-  numberOfPresents: number[]
+  numberOfPresents: number[];
+  calendarName: string;
 }
 
 type State = {
-  presentData: VisiblePresents | null;
+  calendarData: CalendarData | null;
   myPresents: Present[];
 }
 
 export type Action = {
   type: 'SET_PRESENTS_DATA';
-  presentsData: VisiblePresents | null;
+  presentsData: CalendarData | null;
 } | {
   type: 'SET_MYPRESENTS';
   myPresents: Present[];
@@ -30,7 +31,7 @@ function reducer(prevState: State, action: Action): State {
     case 'SET_PRESENTS_DATA':
       return {
         ...prevState,
-        presentData: action.presentsData
+        calendarData: action.presentsData
       };
     case 'SET_MYPRESENTS':
       return {
@@ -39,9 +40,9 @@ function reducer(prevState: State, action: Action): State {
       };
     case 'ADD_PRESENT':
       return {
-        presentData: {
-          ...prevState.presentData,
-          numberOfPresents: prevState.presentData?.numberOfPresents.map((n, i) => i === action.present.day ? n + 1 : n),
+        calendarData: {
+          ...prevState.calendarData,
+          numberOfPresents: prevState.calendarData?.numberOfPresents.map((n, i) => i === action.present.day ? n + 1 : n),
         },
         myPresents: [...prevState.myPresents, action.present]
       };
@@ -51,9 +52,9 @@ function reducer(prevState: State, action: Action): State {
         return prevState;
       }
       return {
-        presentData: {
-          ...prevState.presentData,
-          numberOfPresents: prevState.presentData?.numberOfPresents.map((n, i) => i === presentToRemove.day ? n - 1 : n),
+        calendarData: {
+          ...prevState.calendarData,
+          numberOfPresents: prevState.calendarData?.numberOfPresents.map((n, i) => i === presentToRemove.day ? n - 1 : n),
         },
         myPresents: prevState.myPresents.filter(p => p.uuid !== action.uuid)
       }
@@ -62,7 +63,7 @@ function reducer(prevState: State, action: Action): State {
 }
 
 const initialState: State = {
-  presentData: null,
+  calendarData: null,
   myPresents: []
 }
 

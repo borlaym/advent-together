@@ -10,4 +10,5 @@ export type Present = {
 export type Calendar = {
   uuid: string;
   presents: Present[];
+  name: string;
 }

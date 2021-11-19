@@ -49,9 +49,9 @@ export default function UploadForm({
   defaultSelectedDay,
   onClose
 }: Props) {
-  const { presentData, myPresents } = useContext(StateContext);
+  const { calendarData, myPresents } = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
-  const numberOfPresents = presentData.numberOfPresents;
+  const numberOfPresents = calendarData.numberOfPresents;
   const [selectedDay, setSelectedDay] = useState(defaultSelectedDay);
   const [username, setUsername] = useState(getUserName(calendarId) || '');
   const userId = createAndGetUserId(calendarId);

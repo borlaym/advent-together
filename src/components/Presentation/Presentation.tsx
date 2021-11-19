@@ -28,8 +28,8 @@ export default function Presentation({
   dayNumber,
   onClose
 }: Props) {
-  const { presentData } = useContext(StateContext);
-  const presents = presentData.presents.filter(p => p.day === dayNumber);
+  const { calendarData } = useContext(StateContext);
+  const presents = calendarData.presents.filter(p => p.day === dayNumber);
 
   return (
     <Background onClick={onClose}>

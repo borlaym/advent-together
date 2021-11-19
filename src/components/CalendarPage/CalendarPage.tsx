@@ -8,7 +8,7 @@ import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import styled from "styled-components";
 import UploadForm from "../UploadForm/UploadForm";
-import { DispatchContext, VisiblePresents } from "../DataProvider/DataProvider";
+import { DispatchContext, CalendarData, StateContext } from "../DataProvider/DataProvider";
 import { getCurrentDay } from "../../utils/getCurrentDay";
 import Presentation from "../Presentation/Presentation";
 
@@ -32,6 +32,7 @@ const Row = styled.section`
 
 export default function CalendarPage() {
   const { uuid } = useParams();
+  const { calendarData } = useContext(StateContext);
   const dispatch = useContext(DispatchContext);
   const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
   const [isPresentationOpen, setIsPresentationOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function CalendarPage() {
 
   useEffect(() => {
     if (uuid) {
-      getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => {
+      getJson<CalendarData>('/calendar/' + uuid).then((presents: CalendarData) => {
         dispatch({
           type: 'SET_PRESENTS_DATA',
           presentsData: presents
@@ -87,6 +88,7 @@ export default function CalendarPage() {
 
   return (
     <div>
+      <h1>{calendarData?.calendarName}</h1>
       <button onClick={openUploadForm}>Upload</button>
       <Wrapper>
         <Row>

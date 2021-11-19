@@ -14,7 +14,7 @@ export default function getJson<T>(path: string): Promise<T> {
     .catch(err => console.error(err));
 }
 
-export function post(path: string, body: any) {
+export function post<T>(path: string, body: any): Promise<T> {
   return fetch(ROOT + path, {
     method: 'POST',
     body: JSON.stringify(body),

@@ -4,10 +4,11 @@ import { v4 as uuid } from 'uuid';
 
 export const calendarsRef = firebase.ref('/calendar');
 
-export function createCalendar(): Promise<Calendar> {
+export function createCalendar(name: string): Promise<Calendar> {
   const newCalendar: Calendar = {
     uuid: uuid(),
-    presents: []
+    presents: [],
+    name
   }
   return calendarsRef.push(newCalendar).then(() => newCalendar);
 }
@@ -68,7 +69,8 @@ export function getVisiblePresents(calendarId: string, forceDay: number | null):
 
     return {
       presents: presents.filter(p => p.day <= dayInDecember),
-      numberOfPresents: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(presentsOnDay)
+      numberOfPresents: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23].map(presentsOnDay),
+      calendarName: calendar.name || ''
     }
   });
 }
