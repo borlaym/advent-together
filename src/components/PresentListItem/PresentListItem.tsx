@@ -13,7 +13,7 @@ export default function PresentListItem({
 
   return (
     <li>
-      Day {present.day + 1}: {present.content} <button onClick={deleteItem}>Remove present</button>
+      Dec {present.day + 1}: {present.content} <button onClick={deleteItem}>Remove present</button>
     </li>
   )
 }

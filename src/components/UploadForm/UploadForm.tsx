@@ -6,7 +6,7 @@ import PresentListItem from "../PresentListItem/PresentListItem";
 import { Present } from "../../types";
 import { v4 as uuidV4 } from 'uuid';
 import { post } from "../../utils/api";
-import { StateContext } from "../DataProvider/DataProvider";
+import { DispatchContext, StateContext } from "../DataProvider/DataProvider";
 
 const Background = styled.div`
   position: fixed;
@@ -65,7 +65,8 @@ export default function UploadForm({
   calendarId,
   defaultSelectedDay
 }: Props) {
-  const { presentData } = useContext(StateContext);
+  const { presentData, myPresents } = useContext(StateContext);
+  const dispatch = useContext(DispatchContext);
   const numberOfPresents = presentData.numberOfPresents;
   const [selectedDay, setSelectedDay] = useState(defaultSelectedDay);
   const [username, setUsername] = useState(getUserName(calendarId) || '');
@@ -98,7 +99,25 @@ export default function UploadForm({
     post('/calendar/' + calendarId, present);
     saveUserName(calendarId, username);
     contentRef.current.value = '';
-  }, [calendarId, selectedDay, userId, username]);
+    dispatch({
+      type: 'ADD_PRESENT',
+      present
+    });
+  }, [calendarId, dispatch, selectedDay, userId, username]);
+
+  const handleDelete = useCallback((present: Present) => {
+    if (!window.confirm('Are you sure you want to delete this present?')) {
+      return;
+    }
+    post('/calendar/' + calendarId + '/remove', {
+      presentId: present.uuid,
+      userId
+    });
+    dispatch({
+      type: 'DELETE_PRESENT',
+      uuid: present.uuid
+    });
+  }, [calendarId, dispatch, userId]);
 
   return (
     <Background>
@@ -118,6 +137,16 @@ export default function UploadForm({
           <ErrorDisplay>
             {error}
           </ErrorDisplay>
+        )}
+        {myPresents.length > 0 && (
+          <>
+            <p>Your previously upoloaded presents:</p>
+            <ul>
+              {myPresents.map(present => (
+                <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
+              ))}
+            </ul>
+          </>
         )}
       </Modal>
     </Background>
