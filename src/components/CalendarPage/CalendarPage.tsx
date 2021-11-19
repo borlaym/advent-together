@@ -32,6 +32,7 @@ export default function CalendarPage() {
   const { uuid } = useParams();
   const dispatch = useContext(DispatchContext);
   const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const userId = createAndGetUserId(uuid);
 
   useEffect(() => {
@@ -64,62 +65,71 @@ export default function CalendarPage() {
     }
   });
 
-  const handleDelete = useCallback((present: Present) => {
-
-  }, [userId, uuid]);
-
-  const closeUploadForm = useCallback(() => setIsUploadFormOpen(false), []);
+  const closeUploadForm = useCallback(() => {
+    setIsUploadFormOpen(false);
+    setSelectedDay(null);
+  }, []);
   const openUploadForm = useCallback(() => setIsUploadFormOpen(true), []);
+
+  const handleDayClick = useCallback((clickedDayNumber: number) => {
+    const dayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+    if (dayInDecember <= clickedDayNumber && dayInDecember > -1) {
+      // TODO: open presents modal
+    } else {
+      setSelectedDay(clickedDayNumber);
+      openUploadForm();
+    }
+  }, [openUploadForm]);
 
   return (
     <div>
       <button onClick={openUploadForm}>Upload</button>
       <Wrapper>
         <Row>
-          <CalendarDay color="red" dayNumber={12} icon="R" />
-          <CalendarDay color="green" dayNumber={7} icon="a" />
-          <CalendarDay color="yellow" dayNumber={21} icon="m" />
-          <CalendarDay color="blue" dayNumber={18} icon="i" />
+          <CalendarDay color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
+          <CalendarDay color="green" dayNumber={7} icon="a" onClick={handleDayClick} />
+          <CalendarDay color="yellow" dayNumber={21} icon="m" onClick={handleDayClick} />
+          <CalendarDay color="blue" dayNumber={18} icon="i" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="darkred" dayNumber={14} dimensions="tall" icon="g" />
-          <CalendarDay color="yellow" dayNumber={2} icon="x" />
-          <CalendarDay color="blue" dayNumber={9} icon="j" />
+          <CalendarDay color="darkred" dayNumber={14} dimensions="tall" icon="g" onClick={handleDayClick} />
+          <CalendarDay color="yellow" dayNumber={2} icon="x" onClick={handleDayClick} />
+          <CalendarDay color="blue" dayNumber={9} icon="j" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="purple" dayNumber={1} dimensions="wide" icon="A" />
-          <CalendarDay color="beige" dayNumber={17} icon="l" />
-          <CalendarDay color="darkblue" dayNumber={6} icon="p" />
+          <CalendarDay color="purple" dayNumber={1} dimensions="wide" icon="A" onClick={handleDayClick} />
+          <CalendarDay color="beige" dayNumber={17} icon="l" onClick={handleDayClick} />
+          <CalendarDay color="darkblue" dayNumber={6} icon="p" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="darkgreen" dayNumber={23} dimensions="large" icon="v" />
+          <CalendarDay color="darkgreen" dayNumber={23} dimensions="large" icon="v" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="blue" dayNumber={8} icon="y" />
-          <CalendarDay color="darkred" dayNumber={16} icon="f" />
-          <CalendarDay color="green" dayNumber={20} dimensions="wide" icon="O" />
+          <CalendarDay color="blue" dayNumber={8} icon="y" onClick={handleDayClick} />
+          <CalendarDay color="darkred" dayNumber={16} icon="f" onClick={handleDayClick} />
+          <CalendarDay color="green" dayNumber={20} dimensions="wide" icon="O" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="yellow" dayNumber={10} icon="C" />
-          <CalendarDay color="purple" dayNumber={4} icon="V" />
-          <CalendarDay color="blue" dayNumber={0} icon="b" />
-          <CalendarDay color="red" dayNumber={13}  icon="H" />
+          <CalendarDay color="yellow" dayNumber={10} icon="C" onClick={handleDayClick} />
+          <CalendarDay color="purple" dayNumber={4} icon="V" onClick={handleDayClick} />
+          <CalendarDay color="blue" dayNumber={0} icon="b" onClick={handleDayClick} />
+          <CalendarDay color="red" dayNumber={13}  icon="H" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="red" dayNumber={5} dimensions="tall" icon="s" />
-          <CalendarDay color="darkblue" dayNumber={15} icon="E" />
-          <CalendarDay color="yellow" dayNumber={19} icon="F" />
+          <CalendarDay color="red" dayNumber={5} dimensions="tall" icon="s" onClick={handleDayClick} />
+          <CalendarDay color="darkblue" dayNumber={15} icon="E" onClick={handleDayClick} />
+          <CalendarDay color="yellow" dayNumber={19} icon="F" onClick={handleDayClick} />
         </Row>
         <Row>
-          <CalendarDay color="beige" dayNumber={22} dimensions="wide" icon="X" />
-          <CalendarDay color="darkred" dayNumber={11} icon="c" />
-          <CalendarDay color="green" dayNumber={3}  icon="T" />
+          <CalendarDay color="beige" dayNumber={22} dimensions="wide" icon="X" onClick={handleDayClick} />
+          <CalendarDay color="darkred" dayNumber={11} icon="c" onClick={handleDayClick} />
+          <CalendarDay color="green" dayNumber={3}  icon="T" onClick={handleDayClick} />
         </Row>
       </Wrapper>
       {isUploadFormOpen && (
         <UploadForm
           calendarId={uuid}
-          defaultSelectedDay={null}
+          defaultSelectedDay={selectedDay}
           onClose={closeUploadForm}
         />
       )}

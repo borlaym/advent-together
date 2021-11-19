@@ -8,7 +8,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { post } from "../../utils/api";
 import { DispatchContext, StateContext } from "../DataProvider/DataProvider";
 
-const Background = styled.div`
+export const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -19,9 +19,10 @@ const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 `;
 
-const Modal = styled.div`
+export const Modal = styled.div`
   position: relative;
   width: 90%;
   max-width: 700px;

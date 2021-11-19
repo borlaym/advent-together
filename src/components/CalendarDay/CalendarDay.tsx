@@ -9,6 +9,7 @@ const Icon = styled.span`
     font-size: 100px;
   }
   color: rgba(255 255 255 / 0.8);
+  user-select: none;
 `;
 
 const DayContainer = styled.div<{
@@ -26,6 +27,7 @@ const DayContainer = styled.div<{
   margin: 0 var(--margin) var(--margin) 0;
   box-sizing: border-box;
   border-radius: 5px;
+  cursor: pointer;
 
   background-color: rgba(200 200 200);
 
@@ -87,14 +89,18 @@ type Props = {
   dimensions?: 'tall' | 'wide' | 'large';
   color: keyof typeof colorValues;
   icon: string;
+  onClick: (dayNumber: number) => void;
 }
 
 export default function CalendarDay({
   dayNumber,
   dimensions,
   color,
-  icon
+  icon,
+  onClick
 }: Props) {
+
+  const handleClick = useCallback(() => onClick(dayNumber), []);
 
   return (
     <DayContainer
@@ -103,6 +109,7 @@ export default function CalendarDay({
       style={{
         backgroundColor: colorValues[color]
       }}
+      onClick={handleClick}
     >
       <Icon>{icon}</Icon>
       <DayNumber>{dayNumber + 1}</DayNumber>
