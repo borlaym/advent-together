@@ -9,6 +9,7 @@ import CalendarDay from "../CalendarDay/CalendarDay";
 import PresentListItem from "../PresentListItem/PresentListItem";
 import { v4 as uuidV4 } from 'uuid';
 import styled from "styled-components";
+import UploadForm from "../UploadForm/UploadForm";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
@@ -38,6 +39,7 @@ export default function CalendarPage() {
   const { uuid } = useParams();
   const [presentData, setPresentData] = useState<VisiblePresents | null>(null);
   const [myPresents, setMyPresents] = useState<Present[] | null>(null);
+  const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
   const userId = createAndGetUserId(uuid);
 
   useEffect(() => {
@@ -82,8 +84,11 @@ export default function CalendarPage() {
     });
   }, [userId, uuid]);
 
+  const openUploadForm = useCallback(() => setIsUploadFormOpen(true), []);
+
   return (
     <div>
+      <button onClick={openUploadForm}>Upload</button>
       <Wrapper>
         <Row>
           <CalendarDay color="red" dayNumber={12} numberOfPresents={presentData?.numberOfPresents[12]} icon="R" onSubmitPresent={handleSubmit} />
@@ -126,12 +131,11 @@ export default function CalendarPage() {
           <CalendarDay color="green" dayNumber={3} numberOfPresents={presentData?.numberOfPresents[3]}  icon="T" onSubmitPresent={handleSubmit} />
         </Row>
       </Wrapper>
-      {myPresents && myPresents.length > 0 && <div>
-        <p>My presents</p>
-        <ul>
-          {myPresents.map(p => <PresentListItem key={p.uuid} present={p} onDelete={handleDelete} />)}
-        </ul>
-      </div>}
+      {isUploadFormOpen && (
+        <UploadForm
+          numberOfPresents={presentData.numberOfPresents}
+        />
+      )}
     </div>
   )
 }
