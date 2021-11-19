@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import {
   useParams
 } from "react-router-dom";
@@ -8,6 +8,7 @@ import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay from "../CalendarDay/CalendarDay";
 import styled from "styled-components";
 import UploadForm from "../UploadForm/UploadForm";
+import { DispatchContext, VisiblePresents } from "../DataProvider/DataProvider";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
@@ -27,30 +28,33 @@ const Row = styled.section`
   }
 `;
 
-
-export type VisiblePresents = {
-  presents: Present[];
-  numberOfPresents: number[]
-}
-
 export default function CalendarPage() {
   const { uuid } = useParams();
-  const [presentData, setPresentData] = useState<VisiblePresents | null>(null);
-  const [myPresents, setMyPresents] = useState<Present[] | null>(null);
+  const dispatch = useContext(DispatchContext);
   const [isUploadFormOpen, setIsUploadFormOpen] = useState(false);
   const userId = createAndGetUserId(uuid);
 
   useEffect(() => {
     if (uuid) {
-      getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => setPresentData(presents));
+      getJson<VisiblePresents>('/calendar/' + uuid).then((presents: VisiblePresents) => {
+        dispatch({
+          type: 'SET_PRESENTS_DATA',
+          presentsData: presents
+        });
+      });
     }
-  }, [uuid]);
+  }, [dispatch, uuid]);
 
   useEffect(() => {
     if (uuid && userId) {
-      getJson<Present[]>('/calendar/' + uuid + '/' + userId).then((presents: Present[]) => setMyPresents(presents));
+      getJson<Present[]>('/calendar/' + uuid + '/' + userId).then((presents: Present[]) => {
+        dispatch({
+          type: 'SET_MYPRESENTS',
+          myPresents: presents
+        })
+      });
     }
-  }, [userId, uuid]);
+  }, [dispatch, userId, uuid]);
 
   useEffect(function scrollDayIntoView() {
     const d = new Date();
@@ -60,15 +64,10 @@ export default function CalendarPage() {
     }
   });
 
-
   const handleDelete = useCallback((present: Present) => {
     post('/calendar/' + uuid + '/remove', {
       presentId: present.uuid,
       userId
-    }).then(response => {
-      if (response === true) {
-        setMyPresents(myPresents => myPresents.filter(p => p.uuid !== present.uuid));
-      }
     });
   }, [userId, uuid]);
 
@@ -121,7 +120,6 @@ export default function CalendarPage() {
       </Wrapper>
       {isUploadFormOpen && (
         <UploadForm
-          numberOfPresents={presentData.numberOfPresents}
           calendarId={uuid}
           defaultSelectedDay={null}
         />

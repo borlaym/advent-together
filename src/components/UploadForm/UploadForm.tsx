@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import styled from "styled-components";
 import { createAndGetUserId, getUserName, saveUserName } from "../../utils/userId";
 import DaySelector from "./DaySelector";
@@ -6,6 +6,7 @@ import PresentListItem from "../PresentListItem/PresentListItem";
 import { Present } from "../../types";
 import { v4 as uuidV4 } from 'uuid';
 import { post } from "../../utils/api";
+import { StateContext } from "../DataProvider/DataProvider";
 
 const Background = styled.div`
   position: fixed;
@@ -48,6 +49,7 @@ const Nameinput = styled.input`
   font-size: 20px;
   padding: 0.5em;
   box-sizing: border-box;
+  margin-bottom: 1em;
 `;
 
 const ErrorDisplay = styled.p`
@@ -57,15 +59,14 @@ const ErrorDisplay = styled.p`
 type Props = {
   calendarId: string;
   defaultSelectedDay: number | null;
-  numberOfPresents: number[];
 }
 
 export default function UploadForm({
   calendarId,
-  defaultSelectedDay,
-  numberOfPresents
+  defaultSelectedDay
 }: Props) {
-
+  const { presentData } = useContext(StateContext);
+  const numberOfPresents = presentData.numberOfPresents;
   const [selectedDay, setSelectedDay] = useState(defaultSelectedDay);
   const [username, setUsername] = useState(getUserName(calendarId) || '');
   const userId = createAndGetUserId(calendarId);
