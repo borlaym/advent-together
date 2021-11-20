@@ -13,6 +13,10 @@
   font-family: 'Advent';
   src: url('LettertypeMiesChristmasIcons-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Christmas';
+  src: url('Snowy Christmas - Personal Use.otf') format('opentype');
+}
 
 body {
   margin: 0;
