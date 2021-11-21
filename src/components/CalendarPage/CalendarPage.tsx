@@ -22,6 +22,17 @@ const Wrapper = styled.div`
   /* gap: 1rem; */
 `;
 
+const Title = styled.h1`
+  font-family: Christmas;
+  font-size: 7em;
+  color: white; // hsl(145, 64%, 24%);
+  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
+  margin: 3rem 0;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+`;
+
 const Row = styled.section`
   width: calc(calc(var(--size) + var(--margin)) * 2);
   height: calc(calc(var(--size) + var(--margin)) * 2);
@@ -88,8 +99,7 @@ export default function CalendarPage() {
 
   return (
     <div>
-      <h1>{calendarData?.calendarName}</h1>
-      <button onClick={openUploadForm}>Upload</button>
+      {calendarData?.calendarName && <Title>( {calendarData?.calendarName} )</Title>}
       <Wrapper>
         <Row>
           <CalendarDay color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
@@ -132,6 +142,9 @@ export default function CalendarPage() {
           <CalendarDay color="green" dayNumber={3}  icon="T" onClick={handleDayClick} />
         </Row>
       </Wrapper>
+
+      <button onClick={openUploadForm}>Upload</button>
+
       {isUploadFormOpen && (
         <UploadForm
           calendarId={uuid}
