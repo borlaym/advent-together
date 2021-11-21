@@ -8,6 +8,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { post } from "../../utils/api";
 import { DispatchContext, StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal";
+import ImageUploader from "./ImageUploader";
 
 const Textarea = styled.textarea`
   width: 100%;
@@ -54,6 +55,7 @@ export default function UploadForm({
   const numberOfPresents = calendarData.numberOfPresents;
   const [selectedDay, setSelectedDay] = useState(defaultSelectedDay);
   const [username, setUsername] = useState(getUserName(calendarId) || '');
+  const [image, setImage] = useState<string | null>(null);
   const userId = createAndGetUserId(calendarId);
   const contentRef = useRef(null);
   const [error, setError] = useState('');
@@ -103,6 +105,9 @@ export default function UploadForm({
     });
   }, [calendarId, dispatch, userId]);
 
+  const handleImageAdded = useCallback((image: string) => setImage(image), []);
+  const handleImageRemoved = useCallback(() => setImage(null), []);
+
   return (
     <Background onClick={onClose}>
       <Modal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
@@ -117,6 +122,11 @@ export default function UploadForm({
         <Textarea rows={4} ref={contentRef}></Textarea>
         <p>Let people know who sent this present</p>
         <Nameinput type="text" value={username} placeholder="Set your name" onChange={handleNameChange} />
+        <ImageUploader
+          onImageAdded={handleImageAdded}
+          onImageRemoved={handleImageRemoved}
+          image={image}
+        />
         <button onClick={handleSubmit}>Send</button>
         {error && (
           <ErrorDisplay>
