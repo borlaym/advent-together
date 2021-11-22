@@ -39,6 +39,15 @@ const CloseButton = styled.div`
   cursor: pointer;
 `;
 
+const Row = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin: 1em 0;
+  > * {
+    margin: 0 1em;
+  }
+`;
+
 type Props = {
   calendarId: string;
   defaultSelectedDay: number | null;
@@ -114,20 +123,28 @@ export default function UploadForm({
       <Modal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
         <h1>Upload form</h1>
         <CloseButton onClick={onClose}>x</CloseButton>
+
         <DaySelector
           selectedDay={selectedDay}
           numberOfPresents={numberOfPresents}
           onChange={handleDayChange}
         />
-        <p>Add content</p>
-        <Textarea rows={4} ref={contentRef}></Textarea>
+
+        <Row>
+          <ImageUploader
+            onImageAdded={handleImageAdded}
+            onImageRemoved={handleImageRemoved}
+            image={image}
+          />
+          <div>
+            <p>Add content</p>
+            <Textarea rows={5} ref={contentRef}></Textarea>
+          </div>
+        </Row>
+
         <p>Let people know who sent this present</p>
         <Nameinput type="text" value={username} placeholder="Set your name" onChange={handleNameChange} />
-        <ImageUploader
-          onImageAdded={handleImageAdded}
-          onImageRemoved={handleImageRemoved}
-          image={image}
-        />
+
         <button onClick={handleSubmit}>Send</button>
         {error && (
           <ErrorDisplay>
