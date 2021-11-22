@@ -52,4 +52,5 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 app.use('*', errorHandler)
 
-app.listen(9000, () => console.log('listening on 9000'));
+const port = process.env.PORT || 9000;
+app.listen(port, () => console.log(`listening on ${port}`));
