@@ -67,7 +67,7 @@ export default function ImageUploader({
         console.error(err);
       })
     }
-  }, []);
+  }, [onImageAdded]);
 
   if (!image) {
     return (

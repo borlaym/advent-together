@@ -80,7 +80,8 @@ export default function UploadForm({
       uploader: userId || '',
       uploaderName: username,
       contentType: 'Text',
-      content
+      content,
+      image
     };
     post('/calendar/' + calendarId, present);
     saveUserName(calendarId, username);
@@ -89,7 +90,7 @@ export default function UploadForm({
       type: 'ADD_PRESENT',
       present
     });
-  }, [calendarId, dispatch, selectedDay, userId, username]);
+  }, [calendarId, dispatch, image, selectedDay, userId, username]);
 
   const handleDelete = useCallback((present: Present) => {
     if (!window.confirm('Are you sure you want to delete this present?')) {

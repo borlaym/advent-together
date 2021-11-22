@@ -5,6 +5,7 @@ export type Present = {
   uploaderName: string | null;
   contentType: 'Text' | 'Image';
   content: string;
+  image?: string;
 }
 
 export type Calendar = {
