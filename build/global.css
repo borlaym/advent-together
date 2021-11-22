@@ -1,0 +1,27 @@
+:root {
+  --size: 170px;
+  --margin: 10px;
+}
+@media screen and (min-width: 440px) {
+  :root {
+    --size: 200px;
+    --margin: 20px;
+  }
+}
+
+@font-face {
+  font-family: 'Advent';
+  src: url('LettertypeMiesChristmasIcons-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Christmas';
+  src: url('Snowy Christmas - Personal Use.otf') format('opentype');
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Comic Sans", "Comic Sans MS", "Chalkboard", "ChalkboardSE-Regular", sans-serif;
+  background-color: #666754;
+  color: rgba(0 0 0);
+}

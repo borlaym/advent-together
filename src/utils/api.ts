@@ -1,6 +1,6 @@
 import { enforceDay } from "./getCurrentDay";
 
-const ROOT = 'http://localhost:9000/api';
+const ROOT = process.env.NODE_ENV === 'production' ? 'https://adventinaptar.herokuapp.com/api' : 'http://localhost:9000/api';
 
 export default function getJson<T>(path: string): Promise<T> {
   return fetch(ROOT + path, {

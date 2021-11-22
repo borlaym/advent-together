@@ -30,6 +30,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build-client": "react-scripts build",
     "build-ts": "tsc",
     "start": "npm run serve",
     "serve": "tsc && node -r dotenv/config dist/server.js",
