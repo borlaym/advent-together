@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { createAndGetUserId, getUserName, saveUserName } from "../../utils/userId";
 import DaySelector from "./DaySelector";
@@ -123,6 +123,12 @@ export default function UploadForm({
   const handleImageAdded = useCallback((image: string) => setImage(image), []);
   const handleImageRemoved = useCallback(() => setImage(null), []);
 
+  const resetError = useCallback(() => setError(''), []);
+
+  useEffect(function resetError() {
+    setError('');
+  }, [username, selectedDay, image]);
+
   return (
     <Background onClick={onClose}>
       <Modal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
@@ -143,7 +149,7 @@ export default function UploadForm({
           />
           <div>
             <p>Add content</p>
-            <Textarea rows={5} ref={contentRef}></Textarea>
+            <Textarea rows={5} ref={contentRef} onInput={resetError}></Textarea>
           </div>
         </Row>
 
