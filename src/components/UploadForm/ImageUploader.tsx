@@ -24,7 +24,18 @@ const Container = styled.label`
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+  position: relative;
 `;
+
+const DeleteButton = styled.div`
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background: red;
+  color: white;
+  cursor: pointer;
+  padding: 2px;
+`
 
 
 type Props = {
@@ -79,6 +90,12 @@ export default function ImageUploader({
     }
   }, [onImageAdded]);
 
+  const handleRemove = useCallback((event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    onImageRemoved();
+  }, [onImageRemoved]);
+
   if (!image) {
     return (
       <Container onClick={stopPropagation}>
@@ -99,6 +116,8 @@ export default function ImageUploader({
       style={{
         backgroundImage: `url('${thumbnail(image)}')`
       }}
-    />
+    >
+      <DeleteButton onClick={handleRemove}>Törlés</DeleteButton>
+    </Container>
   )
 }
