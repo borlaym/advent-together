@@ -2,6 +2,7 @@ import express, { ErrorRequestHandler } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import { addPresent, createCalendar, deletePresent, getPresentsOfUser, getVisiblePresents } from './db';
+import { isValidPresent } from './types';
 
 const app = express();
 
@@ -18,7 +19,11 @@ app.use('*', (req, res, next) => {
 })
 
 app.post('/api/create', (req, res, next) => {
-  createCalendar(req.body.name)
+  const name = req.body.name;
+  if (name.length < 3 || name.length > 100) {
+    return next(new Error('Incorrect name'));
+  }
+  createCalendar(name)
     .then(calendar => res.json(calendar))
     .catch(err => next(err));
 });
@@ -37,6 +42,11 @@ app.get('/api/calendar/:uuid', (req, res, next) => {
 });
 
 app.post('/api/calendar/:uuid', (req, res, next) => {
+  if (!isValidPresent(req.body)) {
+    console.error('Invalid Present');
+    console.error(req.body);
+    return next(new Error('Invalid present'));
+  }
   addPresent(req.params.uuid as string, req.body)
     .then(present => res.json(present))
     .catch(err => next(err));
@@ -52,7 +62,7 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/../build/index.h
 app.use(express.static('build'));
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  console.log(err);
+  console.error(err);
   res.status(400);
   res.send({
     data: null,

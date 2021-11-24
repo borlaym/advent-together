@@ -80,6 +80,12 @@ export default function UploadForm({
     if (!content && !image) {
       return setError('Adj meg vagy egy képet vagy egy üzenetet!');
     }
+    if (content.length > 2000) {
+      return setError('Az üzenet maximális hossza 2000 karakter!');
+    }
+    if (username?.length > 100) {
+      return setError('A felhasználónév nem lehet hosszabb, mint 100 karakter!');
+    }
     if (!selectedDay) {
       return setError('Please select a day');
     }

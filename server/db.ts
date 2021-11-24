@@ -93,7 +93,7 @@ export function deletePresent(calendarId: string, userId: string, presentId: str
         return data[key].uploader === userId && data[key].uuid === presentId;
       });
       if (!presentRef) {
-        return false;
+        throw new Error("Can't find valid present to delete");
       }
       return firebase.ref(`/calendar/${ref}/presents/${presentRef}`).remove().then(() => true);
     });
