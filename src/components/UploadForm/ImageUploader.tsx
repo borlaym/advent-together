@@ -1,5 +1,6 @@
 import styled from "styled-components"
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+import createImagePreloadPromise from "./createPreloadPromise";
 
 const cloudName = 'adventcalendar';
 const unsignedUploadPreset = 'ml_default';
@@ -10,6 +11,8 @@ const supportedMediaTypes = [
   'image/svg+xml',
   'image/webp'
 ];
+
+const thumbnail = (id: string) => `https://res.cloudinary.com/adventcalendar/image/upload/w_200,h_200,c_fit/${id}.jpg`;
 
 const Container = styled.label`
   width: 200px;
@@ -35,6 +38,7 @@ export default function ImageUploader({
   onImageRemoved,
   image
 }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
 
   const stopPropagation = useCallback((event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
@@ -42,6 +46,7 @@ export default function ImageUploader({
 
   const startUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
+      setIsLoading(true);
       const file = e.target.files.item(0);
       if (!file) {
         return; // Shouldn't happen
@@ -61,9 +66,14 @@ export default function ImageUploader({
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        onImageAdded(response.public_id)
+        return createImagePreloadPromise(thumbnail(response.public_id))
+          .then(() => {
+            onImageAdded(response.public_id);
+            setIsLoading(false);
+          });
       })
       .catch(err => {
+        setIsLoading(false);
         console.error(err);
       })
     }
@@ -78,7 +88,7 @@ export default function ImageUploader({
           onChange={startUpload}
           accept={supportedMediaTypes.join(', ')}
         />
-        'Tölts fel egy képet!'
+        {isLoading ? 'Töltés...' : 'Tölts fel egy képet!'}
       </Container>
     )
   }
@@ -87,10 +97,8 @@ export default function ImageUploader({
     <Container
       onClick={stopPropagation}
       style={{
-        backgroundImage: `url('https://res.cloudinary.com/adventcalendar/image/upload/w_200,h_200,c_fit/${image}.jpg'`
+        backgroundImage: `url('${thumbnail(image)}')`
       }}
-    >
-
-    </Container>
+    />
   )
 }
