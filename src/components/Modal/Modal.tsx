@@ -11,7 +11,17 @@ export const Background = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 3;
+  z-index: 10;
+
+  // this makes it appear above the opening doors (where perspective is set to 30em/60em)
+  transform: translateZ(61em);
+
+  // appearing animation
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  animation: 100ms linear fadein;
 `;
 
 export const Modal = styled.div`
@@ -27,4 +37,12 @@ export const Modal = styled.div`
   align-items: center;
   box-sizing: border-box;
   padding: 2em;
+  z-index: 10;
+
+  // appearing animation
+  @keyframes slidein {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+  animation: 300ms ease-in-out slidein;
 `;
