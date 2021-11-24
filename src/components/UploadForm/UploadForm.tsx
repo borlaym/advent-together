@@ -77,8 +77,8 @@ export default function UploadForm({
 
   const handleSubmit = useCallback(() => {
     const content = contentRef.current?.value;
-    if (!content) {
-      return setError('Please specify a content');
+    if (!content && !image) {
+      return setError('Adj meg vagy egy képet vagy egy üzenetet!');
     }
     if (!selectedDay) {
       return setError('Please select a day');
@@ -88,7 +88,6 @@ export default function UploadForm({
       day: selectedDay,
       uploader: userId || '',
       uploaderName: username,
-      contentType: 'Text',
       content,
       image
     };

@@ -3,7 +3,6 @@ export type Present = {
   day: number;
   uploader: string;
   uploaderName: string | null;
-  contentType: 'Text' | 'Image';
   content: string;
   image?: string;
 }
