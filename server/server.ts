@@ -17,25 +17,35 @@ app.use('*', (req, res, next) => {
   next();
 })
 
-app.post('/api/create', (req, res) => {
-  createCalendar(req.body.name).then(calendar => res.json(calendar));
+app.post('/api/create', (req, res, next) => {
+  createCalendar(req.body.name)
+    .then(calendar => res.json(calendar))
+    .catch(err => next(err));
 });
 
-app.get('/api/calendar/:uuid/:userId', (req, res) => {
-  getPresentsOfUser(req.params.uuid as string, req.params.userId).then(presents => res.json(presents));
+app.get('/api/calendar/:uuid/:userId', (req, res, next) => {
+  getPresentsOfUser(req.params.uuid as string, req.params.userId)
+    .then(presents => res.json(presents))
+    .catch(err => next(err));
 });
 
-app.get('/api/calendar/:uuid', (req, res) => {
+app.get('/api/calendar/:uuid', (req, res, next) => {
   const forceDay = req.headers['x-force-day'] !== null ? Number(req.headers['x-force-day']) : null;
-  getVisiblePresents(req.params.uuid as string, forceDay).then(visiblePresents => res.json(visiblePresents));
+  getVisiblePresents(req.params.uuid as string, forceDay)
+    .then(visiblePresents => res.json(visiblePresents))
+    .catch(err => next(err));
 });
 
-app.post('/api/calendar/:uuid', (req, res) => {
-  addPresent(req.params.uuid as string, req.body).then(present => res.json(present));
+app.post('/api/calendar/:uuid', (req, res, next) => {
+  addPresent(req.params.uuid as string, req.body)
+    .then(present => res.json(present))
+    .catch(err => next(err));
 });
 
-app.post('/api/calendar/:uuid/remove', (req, res) => {
-  deletePresent(req.params.uuid as string, req.body.userId, req.body.presentId).then(present => res.json(present));
+app.post('/api/calendar/:uuid/remove', (req, res, next) => {
+  deletePresent(req.params.uuid as string, req.body.userId, req.body.presentId)
+    .then(present => res.json(present))
+    .catch(err => next(err));
 });
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname + '/../build/index.html')));
