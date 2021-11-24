@@ -76,7 +76,9 @@ export default function CalendarPage() {
     const dayInDecember = getCurrentDay();
     if (dayInDecember > -1) {
       const currentDay = document.getElementById(`day_${dayInDecember}`);
-      currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
+      if (currentDay) {
+        currentDay.scrollIntoView({behavior: 'smooth', block: 'center'});
+      }
     }
   }, []);
 
