@@ -274,7 +274,7 @@ export default function UploadForm({
             <>
               <ListHeader>Erről az eszközről korábban feltöltött ajándékaid:</ListHeader>
               <List>
-                {myPresents.map(present => (
+                {myPresents.sort((a, b) => a.day - b.day).map(present => (
                   <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
                 ))}
               </List>
