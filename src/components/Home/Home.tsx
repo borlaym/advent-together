@@ -21,7 +21,7 @@ const Page = styled.div`
 `;
 
 const Error = styled.p`
-  color: red;
+  color: rgb(248, 178, 41);
 `;
 
 const Title = styled.h1`
@@ -73,7 +73,7 @@ export default function LandingPage() {
 
   const createCalendar = useCallback(() => {
     if (name.length < 3 || name.length > 100) {
-      return setError('Please specify egy normalis hosszusagu nevet');
+      return setError('Kérlek 3 és 100 karakter közötti nevet adj meg!');
     }
     post<Calendar>('/create', { name }).then((calendar: Calendar) => {
      navigate(`/${calendar.uuid}`);
@@ -107,13 +107,13 @@ export default function LandingPage() {
 
         {!showTitleForm && (
           <>
-            <Text>Készíts te is saját naptárat! Hívd meg a barátaid, töltsetek fel egymásnak valamiket, aztán meg is nézhetitek WOW!</Text>
+            <Text>Készíts te is saját naptárat! Hívd meg a barátaid, töltsetek fel egymásnak meglepetéseket, és várjátok együtt a karácsonyt!</Text>
             <Button onClick={enableUploadForm}>Szeretnék egy saját naptárat!</Button>
           </>
         )}
         {showTitleForm && (
           <>
-            <Text>Adj meg a naptárad címét, és a gombnyomás után máris a saját naptárad oldalán leszel!<br />A naptárad publikus, de titkos URL mögött van. Ha valakivel közösen szeretnéd feltölteni, csak küld el neki a címet, és egy név megadása után máris feltöltheti az ajándékait!</Text>
+            <Text>Add meg a naptárad címét, és a gombnyomás után máris kezdheted a feltöltést!<br />A naptárad publikus, de titkos URL mögött van. Ha valakivel közösen szeretnétek meglepni egymást, csak küldd el neki az URL-t, és ő is része lesz az ajándékozásnak!</Text>
 
             <Input type="text" value={name} placeholder="naptárad címe" onChange={handleNameChange} /><br />
             <Button onClick={createCalendar}>Mutasd a naptáram!</Button>
