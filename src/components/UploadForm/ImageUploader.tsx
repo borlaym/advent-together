@@ -17,14 +17,19 @@ const thumbnail = (id: string) => `https://res.cloudinary.com/adventcalendar/ima
 const Container = styled.label`
   width: 200px;
   height: 200px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px gray dotted;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
+  background-color: #e0a452;
   position: relative;
+  font-size: 1.2em;
+  cursor: pointer;
 `;
 
 const DeleteButton = styled.div`

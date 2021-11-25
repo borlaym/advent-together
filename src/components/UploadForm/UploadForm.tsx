@@ -9,22 +9,113 @@ import { post } from "../../utils/api";
 import { DispatchContext, StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal";
 import ImageUploader from "./ImageUploader";
+import { Button } from './Button';
+
+const UploadModal = styled(Modal)`
+  background-color: #cc954a;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px 0 rgba(50, 50, 50, 0.7);
+`;
+
+const UploadWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: rgba(10 10 10 / 0.75);
+`;
+
+const Title = styled.h1`
+  font-size: 3em;
+  color: rgba(250 250 250 / 0.9);
+  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
+  margin: 2rem 0 1rem;
+  padding: 0;
+  width: 100%;
+  text-align: center;
+
+  @media screen and (max-width: 440px) {
+    margin: 0.5rem 0;
+    font-size: 2.5em;
+  }
+`;
+
+const Text = styled.p`
+  color: #f7f7f7e8;
+  font-size: 1.5em;
+  line-height: 1.65em;
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
+  width: 90%;
+`;
 
 const Textarea = styled.textarea`
-  width: 100%;
-  font-family: "Comic Sans", "Comic Sans MS", "Chalkboard", "ChalkboardSE-Regular", sans-serif;
-  font-size: 20px;
+  width: 200px;
+  height: 200px;
+  font-family: 'Acme', cursive;
+  font-size: 1.2em;
   padding: 0.5em;
   box-sizing: border-box;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  background-color: #e0a452;
+
+  &::placeholder {
+    color: rgba(10 10 10 / 0.75);
+    text-align: center;
+    padding-top: calc(50% - 10px);
+  }
+
+  &:active, &:focus {
+    &::placeholder {
+      color: transparent;
+    }
+  }
+`;
+
+const Label = styled.label`
+  font-size: 1.2em;
+  @media screen and (max-width: 440px) {
+    font-size: 1.1em;
+  }
 `;
 
 const Nameinput = styled.input`
-  width: 50%;
-  font-family: "Comic Sans", "Comic Sans MS", "Chalkboard", "ChalkboardSE-Regular", sans-serif;
-  font-size: 20px;
+  width: 200px;
+  font-family: 'Acme', cursive;
+  font-size: 1.2em;
   padding: 0.5em;
   box-sizing: border-box;
-  margin-bottom: 1em;
+  margin: 0.5em 0 1em 0;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  background-color: #e0a452;
+  text-align: center;
+
+  &::placeholder {
+    color: rgba(10 10 10 / 0.3);
+    text-align: center;
+  }
+
+  &:active, &:focus {
+    &::placeholder {
+      color: transparent;
+    }
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  margin: 0.5em;
+  background-color: hsl(145deg 61% 30%);
+  :hover {
+    background-color: hsl(145deg 61% 35%);
+  }
 `;
 
 const ErrorDisplay = styled.p`
@@ -42,9 +133,11 @@ const CloseButton = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-around;
+  flex-wrap: wrap;
   margin: 1em 0;
   > * {
-    margin: 0 1em;
+    margin: 0.5em 1em;
   }
 `;
 
@@ -131,48 +224,52 @@ export default function UploadForm({
 
   return (
     <Background onClick={onClose}>
-      <Modal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-        <h1>Upload form</h1>
-        <CloseButton onClick={onClose}>x</CloseButton>
+      <UploadModal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+        <UploadWrapper>
+          <CloseButton onClick={onClose}>x</CloseButton>
+          <Title>Ajándékozni jó!</Title>
+          <Text>
+            Tölts fel egy képet, rövid szöveget, vagy akár egy Youtube linket a kiválasztott napra!
+          </Text>
 
-        <DaySelector
-          selectedDay={selectedDay}
-          numberOfPresents={numberOfPresents}
-          onChange={handleDayChange}
-        />
-
-        <Row>
-          <ImageUploader
-            onImageAdded={handleImageAdded}
-            onImageRemoved={handleImageRemoved}
-            image={image}
+          <DaySelector
+            selectedDay={selectedDay}
+            numberOfPresents={numberOfPresents}
+            onChange={handleDayChange}
           />
-          <div>
-            <p>Add content</p>
-            <Textarea rows={5} ref={contentRef} onInput={resetError}></Textarea>
-          </div>
-        </Row>
 
-        <p>Let people know who sent this present</p>
-        <Nameinput type="text" value={username} placeholder="Set your name" onChange={handleNameChange} />
+          <Row>
+            <ImageUploader
+              onImageAdded={handleImageAdded}
+              onImageRemoved={handleImageRemoved}
+              image={image}
+            />
+            <div>
+              <Textarea rows={5} ref={contentRef} onInput={resetError} placeholder="Vagy írj üzenetet!"></Textarea>
+            </div>
+          </Row>
 
-        <button onClick={handleSubmit}>Send</button>
-        {error && (
-          <ErrorDisplay>
-            {error}
-          </ErrorDisplay>
-        )}
-        {myPresents.length > 0 && (
-          <>
-            <p>Your previously upoloaded presents:</p>
-            <ul>
-              {myPresents.map(present => (
-                <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
-              ))}
-            </ul>
-          </>
-        )}
-      </Modal>
+          <Label htmlFor="usernameField">És ha szeretnéd a neved is megadhatod</Label>
+          <Nameinput id="usernameField" type="text" value={username} placeholder="névtelen ajándékozó" onChange={handleNameChange} />
+
+          <SubmitButton onClick={handleSubmit}>Mehet</SubmitButton>
+          {error && (
+            <ErrorDisplay>
+              {error}
+            </ErrorDisplay>
+          )}
+          {myPresents.length > 0 && (
+            <>
+              <p>Your previously upoloaded presents:</p>
+              <ul>
+                {myPresents.map(present => (
+                  <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
+                ))}
+              </ul>
+            </>
+          )}
+        </UploadWrapper>
+      </UploadModal>
     </Background>
   )
 }

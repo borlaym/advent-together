@@ -29,14 +29,11 @@ export const Modal = styled.div`
   width: 90%;
   max-width: 700px;
   min-height: 300px;
-  background: white;
-  border: 2px solid gray;
-  border-radius: 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  padding: 2em;
+  margin: 2em;
   z-index: 10;
 
   // appearing animation
