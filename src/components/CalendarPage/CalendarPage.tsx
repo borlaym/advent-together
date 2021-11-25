@@ -24,11 +24,12 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-family: Christmas;
-  font-size: 7em;
+  font-family: 'Great Vibes', cursive;
+  font-weight: normal;
+  font-size: 5em;
   color: white; // hsl(145, 64%, 24%);
-  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
-  margin: 3rem 0;
+  text-shadow: 2px 3px 5px rgba(50 50 50 / 0.6);
+  margin: 3rem 0 0;
   padding: 0;
   width: 100%;
   text-align: center;
@@ -37,7 +38,7 @@ const Title = styled.h1`
 const Description = styled.div`
   color: white; // hsl(145, 64%, 24%);
   margin: 0 auto;
-  padding: 30px;
+  padding: 1em;
   max-width: 700px;
   text-align: center;
 
@@ -126,7 +127,7 @@ export default function CalendarPage() {
 
   return (
     <div>
-      {calendarData?.calendarName && <Title>( {calendarData?.calendarName} )</Title>}
+      {calendarData?.calendarName && <Title>{calendarData?.calendarName}</Title>}
       <Description>
         <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
         <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>

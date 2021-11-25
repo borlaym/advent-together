@@ -57,12 +57,25 @@ const Input = styled.input`
   padding: 0.5em;
   box-sizing: border-box;
   width: 100%;
-  font-size: 3em;
-  font-family: 'Acme', cursive;
+  font-size: 2em;
+  font-family: inherit;
   text-shadow: 1px 1px 2px rgba(50 50 50 / 0.5);
   background-color: #dfe2d2;
   color: hsl(145, 64%, 24%);
   margin: 0.5em 0 0.5em;
+
+  &::placeholder {
+    color: rgba(10 10 10 / 0.5);
+    text-align: center;
+    padding-top: calc(50% - 10px);
+  }
+
+  &:active, &:focus {
+    &::placeholder {
+      color: transparent;
+      text-shadow: none;
+    }
+  }
 `;
 
 export default function LandingPage() {

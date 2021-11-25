@@ -35,7 +35,7 @@ export const InlineButton = styled.button`
   border-radius: 3px;
   padding: 0.3em;
 
-  font-family: 'Acme', cursive;
+  font-family: inherit;
   box-shadow: 2px 2px 17px 0px #0000005c;
   background-color: #F44336;
   color: #fff;
