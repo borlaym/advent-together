@@ -30,7 +30,10 @@ const Day = styled.div`
   }
 `;
 
-const PresentsIndicator = styled.div`
+const PresentsIndicator = styled.div<{ isSelected?: boolean; }>`
+  position: absolute;
+  top: 0;
+  right: 5px;
   color: black;
   font-size: 16px;
   display: flex;
@@ -42,23 +45,36 @@ const PresentsIndicator = styled.div`
     font-size: 20px;
     font-family: Advent;
   }
+
+  ${props => props.isSelected && css`
+    color: rgba(250 250 250 / 0.9);
+  `}
 `;
 
-const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
+const DayNumber = styled.div<{ isSelected?: boolean; }>`
+  position: relative;
   font-size: 36px;
   @media screen and (max-width: 440px) {
     font-size: 30px;
   }
   color: rgba(0 0 0 / 0.65);
-  max-width: 40px;
+  max-width: 35px;
+  margin-right: 15px;
 
-  ${props => props.hasPresent && css`
-    font-weight: bold;
-    color: rgba(80 80 80 / 0.4);
-  `}
   ${props => props.isSelected && css`
-    // text-decoration: underline;
-    color: hsl(145deg 61% 25%);
+    color: rgba(250 250 250 / 0.9);
+    &:before {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: -15px;
+      right: -15px;
+      background-color: #F44336;
+      z-index: -1;
+      border-radius: 5px;
+    }
   `}
 `;
 
@@ -91,11 +107,8 @@ export default function DaySelector({
         })();
         return (
           <Day key={i} onClick={() => onChange(i)}>
-            <DayNumber
-              isSelected={i === selectedDay}
-              hasPresent={!!n}
-            >{i + 1}</DayNumber>
-            <PresentsIndicator>
+            <DayNumber isSelected={i === selectedDay}>{i + 1}</DayNumber>
+            <PresentsIndicator isSelected={i === selectedDay}>
               {(new Array(indicator)).fill(true).map((_, i) => (
                 <span className="icon" key={i}>h</span>
               ))}
