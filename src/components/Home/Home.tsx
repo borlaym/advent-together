@@ -93,7 +93,7 @@ export default function LandingPage() {
     <Page>
       <BodyBackgroundOverride />
 
-      <Title>( Adventi )<br />( Naptár )</Title>
+      <Title>( Boldog )<br />( Karácsonyt! )</Title>
 
       <HangingItem style={{ left: '70%', animationDelay: '0.3s' }} className="withRope">
         <ChristmasOrnament />
