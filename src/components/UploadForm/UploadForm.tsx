@@ -181,6 +181,10 @@ export default function UploadForm({
   const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value), []);
   const handleDayChange = useCallback((day: number) => {
     setSelectedDay(day);
+    const $uploaderArea = document.getElementById('uploaderArea');
+    if ($uploaderArea) {
+      $uploaderArea.scrollIntoView({ behavior: 'smooth' });
+    }
     setError('');
   }, []);
 
@@ -255,7 +259,7 @@ export default function UploadForm({
             onChange={handleDayChange}
           />
 
-          <Row>
+          <Row id="uploaderArea">
             <ImageUploader
               onImageAdded={handleImageAdded}
               onImageRemoved={handleImageRemoved}
