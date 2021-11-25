@@ -49,6 +49,11 @@ const Text = styled.p`
   color: #f7f7f7e8;
   font-size: 1.5em;
   line-height: 1.65em;
+  @media screen and (max-width: 440px) {
+    font-size: 1.2em;
+    line-height: 1.65em;
+  }
+
   text-align: center;
   text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
   width: 90%;
@@ -176,6 +181,10 @@ export default function UploadForm({
   const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value), []);
   const handleDayChange = useCallback((day: number) => {
     setSelectedDay(day);
+    const $uploaderArea = document.getElementById('uploaderArea');
+    if ($uploaderArea) {
+      $uploaderArea.scrollIntoView({ behavior: 'smooth' });
+    }
     setError('');
   }, []);
 
@@ -250,7 +259,7 @@ export default function UploadForm({
             onChange={handleDayChange}
           />
 
-          <Row>
+          <Row id="uploaderArea">
             <ImageUploader
               onImageAdded={handleImageAdded}
               onImageRemoved={handleImageRemoved}

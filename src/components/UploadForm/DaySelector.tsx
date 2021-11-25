@@ -12,55 +12,70 @@ const Container = styled.div`
   align-items: flex-end;
   justify-content: space-around;
   max-width: 300px;
+  @media screen and (max-width: 440px) {
+    max-width: 270px;
+  }
 `;
 
 const Day = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
   cursor: pointer;
   width: 50px;
-`;
-
-const PresentsIndicator = styled.div`
-  color: black;
-  position: absolute;
-  bottom: 100%;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 5px;
-  padding: 0.2em;
-  font-size: 18px;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-
-  .icon {
-    font-size: 24px;
-    font-family: Advent;
+  @media screen and (max-width: 440px) {
+    width: 45px;
   }
 `;
 
-const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
-  font-size: 26px;
-  color: rgba(0 0 0 / 0.65);
+const PresentsIndicator = styled.div<{ isSelected?: boolean; }>`
+  position: absolute;
+  top: 0;
+  right: 5px;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  width: 10px;
 
-  ${props => props.hasPresent && css`
-    font-weight: bold;
-    color: rgba(80 80 80 / 0.4);
-  `}
+  .icon {
+    font-size: 20px;
+    font-family: Advent;
+  }
+
   ${props => props.isSelected && css`
-    // text-decoration: underline;
-    color: hsl(145deg 61% 25%);
+    color: rgba(250 250 250 / 0.9);
   `}
 `;
 
-const Date = styled.div`
-  font-size: 0.8em;
-  white-space: nowrap;
+const DayNumber = styled.div<{ isSelected?: boolean; }>`
+  position: relative;
+  font-size: 36px;
+  @media screen and (max-width: 440px) {
+    font-size: 30px;
+  }
   color: rgba(0 0 0 / 0.65);
-  margin-right: 5px;
+  max-width: 35px;
+  margin-right: 15px;
+
+  ${props => props.isSelected && css`
+    color: rgba(250 250 250 / 0.9);
+    &:before {
+      display: block;
+      content: '';
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      left: -15px;
+      right: -15px;
+      background-color: #F44336;
+      z-index: -1;
+      border-radius: 5px;
+    }
+  `}
 `;
 
 export default function DaySelector({
@@ -88,21 +103,16 @@ export default function DaySelector({
           if (n === 0) {
             return 0;
           }
-          return Math.min(Math.ceil(((n - minPresents) / range) * 3), n);
+          return Math.min(Math.ceil(((n - minPresents) / range) * 2), n);
         })();
         return (
           <Day key={i} onClick={() => onChange(i)}>
-            {i === selectedDay && <PresentsIndicator>
-              <Date>December {i+1}.</Date>
+            <DayNumber isSelected={i === selectedDay}>{i + 1}</DayNumber>
+            <PresentsIndicator isSelected={i === selectedDay}>
               {(new Array(indicator)).fill(true).map((_, i) => (
                 <span className="icon" key={i}>h</span>
               ))}
-              {n === 0 && <span>🙁</span>}
-            </PresentsIndicator>}
-            <DayNumber
-              isSelected={i === selectedDay}
-              hasPresent={!!n}
-            >{i + 1}</DayNumber>
+            </PresentsIndicator>
           </Day>
         );
       })}
