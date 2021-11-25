@@ -93,7 +93,7 @@ export default function LandingPage() {
     <Page>
       <BodyBackgroundOverride />
 
-      <Title>( Boldog )<br />( Karácsonyt! )</Title>
+      <Title>( Adventi )<br />( Naptár )</Title>
 
       <HangingItem style={{ left: '70%', animationDelay: '0.3s' }} className="withRope">
         <ChristmasOrnament />
@@ -107,13 +107,13 @@ export default function LandingPage() {
 
         {!showTitleForm && (
           <>
-            <Text>Készíts te is saját naptárat! Hívd meg a barátaid, töltsetek fel egymásnak valamiket, aztán meg is nézhetitek WOW!</Text>
+            <Text>Készíts te is saját naptárat! Hívd meg a barátaid, töltsetek fel egymásnak meglepetéseket, és várjátok együtt a karácsonyt!</Text>
             <Button onClick={enableUploadForm}>Szeretnék egy saját naptárat!</Button>
           </>
         )}
         {showTitleForm && (
           <>
-            <Text>Adj meg a naptárad címét, és a gombnyomás után máris a saját naptárad oldalán leszel!<br />A naptárad publikus, de titkos URL mögött van. Ha valakivel közösen szeretnéd feltölteni, csak küld el neki a címet, és egy név megadása után máris feltöltheti az ajándékait!</Text>
+            <Text>Add meg a naptárad címét, és a gombnyomás után máris kezdheted a feltöltést!<br />A naptárad publikus, de titkos URL mögött van. Ha valakivel közösen szeretnétek meglepni egymást, csak küldd el neki az URL-t, és ő is része lesz az ajándékozásnak!</Text>
 
             <Input type="text" value={name} placeholder="naptárad címe" onChange={handleNameChange} /><br />
             <Button onClick={createCalendar}>Mutasd a naptáram!</Button>

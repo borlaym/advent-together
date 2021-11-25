@@ -1,5 +1,6 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
+  Link,
   useParams
 } from "react-router-dom";
 import { Present } from "../../types";
@@ -11,6 +12,7 @@ import UploadForm from "../UploadForm/UploadForm";
 import { DispatchContext, CalendarData, StateContext } from "../DataProvider/DataProvider";
 import { getCurrentDay } from "../../utils/getCurrentDay";
 import Presentation from "../Presentation/Presentation";
+import { InlineButton } from "../PresentListItem/PresentListItem";
 
 const Wrapper = styled.div`
   margin: 2rem auto;
@@ -30,6 +32,21 @@ const Title = styled.h1`
   padding: 0;
   width: 100%;
   text-align: center;
+`;
+
+const Description = styled.div`
+  color: white; // hsl(145, 64%, 24%);
+  margin: 30px auto;
+  max-width: 700px;
+  text-align: center;
+
+  ${InlineButton} {
+    margin-left: 0;
+  }
+
+  a {
+    color: rgb(248, 178, 41);
+  }
 `;
 
 const Row = styled.section`
@@ -109,6 +126,10 @@ export default function CalendarPage() {
   return (
     <div>
       {calendarData?.calendarName && <Title>( {calendarData?.calendarName} )</Title>}
+      <Description>
+        <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
+        <p>December minden napján azok, akinek a naptár meg lett osztva, látni fogják, ki mit töltött föl aznapra! Úgyhogy hajrá, töltsd föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
+      </Description>
       <Wrapper>
         <Row>
           <CalendarDay isSelected={selectedDay === 12} color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
@@ -151,8 +172,6 @@ export default function CalendarPage() {
           <CalendarDay isSelected={selectedDay === 3} color="green" dayNumber={3}  icon="T" onClick={handleDayClick} />
         </Row>
       </Wrapper>
-
-      <button onClick={openUploadForm}>Upload</button>
 
       {isUploadFormOpen && (
         <UploadForm

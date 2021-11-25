@@ -240,7 +240,8 @@ export default function UploadForm({
           <CloseButton onClick={onClose}>x</CloseButton>
           <Title>Ajándékozni jó!</Title>
           <Text>
-            Tölts fel egy képet, rövid szöveget, vagy akár egy Youtube linket a kiválasztott napra!
+            Tölts fel egy képet, rövid szöveget, vagy akár egy Youtube linket a kiválasztott napra!<br />
+            Azon a napon mindenki, aki rendelkezik a naptár URL-jével, látni fogja a feltöltésed.
           </Text>
 
           <DaySelector
@@ -271,7 +272,7 @@ export default function UploadForm({
           )}
           {myPresents.length > 0 && (
             <>
-              <ListHeader>A már korábban feltöltött ajándékaid</ListHeader>
+              <ListHeader>Erről az eszközről korábban feltöltött ajándékaid:</ListHeader>
               <List>
                 {myPresents.map(present => (
                   <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />

@@ -6,7 +6,7 @@ const ListItem = styled.li`
   margin: 0.3em;
 `;
 
-const Button = styled.button`
+export const InlineButton = styled.button`
   display: inline-block;
   margin: 0 0 0 10px;
   outline: none;
@@ -32,7 +32,7 @@ export default function PresentListItem({
 
   return (
     <ListItem>
-      December {present.day + 1}: {present.content} <Button onClick={deleteItem}>Töröld</Button>
+      December {present.day + 1}: {present.content} <InlineButton onClick={deleteItem}>Törlés</InlineButton>
     </ListItem>
   )
 }
