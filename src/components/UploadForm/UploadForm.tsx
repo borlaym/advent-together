@@ -213,6 +213,7 @@ export default function UploadForm({
     post('/calendar/' + calendarId, present);
     saveUserName(calendarId, username);
     contentRef.current.value = '';
+    setImage(null);
     dispatch({
       type: 'ADD_PRESENT',
       present

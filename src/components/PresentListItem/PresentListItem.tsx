@@ -1,9 +1,30 @@
 import styled from 'styled-components';
 import { useCallback } from "react";
 import { Present } from "../../types";
+import { original, thumbnail } from '../UploadForm/ImageUploader';
 
 const ListItem = styled.li`
   margin: 0.3em;
+  display: flex;
+  align-items: center;
+
+  a {
+    display: flex;
+  }
+
+  img {
+    max-height: 20px;
+    max-width: 20px;
+    display: inline-block;
+    margin: 0 3px;
+  }
+
+  ::before {
+    display: inline-block;
+    font-family: Advent;
+    content: 'h';
+    margin-right: 3px;
+  }
 `;
 
 export const InlineButton = styled.button`
@@ -32,7 +53,11 @@ export default function PresentListItem({
 
   return (
     <ListItem>
-      December {present.day + 1}: {present.content} <InlineButton onClick={deleteItem}>Törlés</InlineButton>
+      December {present.day + 1}: {present.image && (
+        <a href={original(present.image)} target="_blank">
+          <img src={thumbnail(present.image)} />
+        </a>
+      )} {present.content} <InlineButton onClick={deleteItem}>Törlés</InlineButton>
     </ListItem>
   )
 }
