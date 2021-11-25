@@ -21,7 +21,7 @@ const Page = styled.div`
 `;
 
 const Error = styled.p`
-  color: red;
+  color: rgb(248, 178, 41);
 `;
 
 const Title = styled.h1`
@@ -73,7 +73,7 @@ export default function LandingPage() {
 
   const createCalendar = useCallback(() => {
     if (name.length < 3 || name.length > 100) {
-      return setError('Please specify egy normalis hosszusagu nevet');
+      return setError('Kérlek 3 és 100 karakter közötti nevet adj meg!');
     }
     post<Calendar>('/create', { name }).then((calendar: Calendar) => {
      navigate(`/${calendar.uuid}`);
