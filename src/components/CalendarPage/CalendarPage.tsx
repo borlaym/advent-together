@@ -36,7 +36,8 @@ const Title = styled.h1`
 
 const Description = styled.div`
   color: white; // hsl(145, 64%, 24%);
-  margin: 30px auto;
+  margin: 0 auto;
+  padding: 30px;
   max-width: 700px;
   text-align: center;
 
