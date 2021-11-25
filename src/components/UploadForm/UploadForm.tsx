@@ -31,9 +31,10 @@ const UploadWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 3em;
+  font-family: 'Great Vibes', cursive;
+  font-size: 5em;
   color: rgba(250 250 250 / 0.9);
-  text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
+  text-shadow: 2px 3px 5px rgba(50 50 50 / 0.6);
   margin: 2rem 0 1rem;
   padding: 0;
   width: 100%;
@@ -47,8 +48,8 @@ const Title = styled.h1`
 
 const Text = styled.p`
   color: #f7f7f7e8;
-  font-size: 1.5em;
-  line-height: 1.65em;
+  font-size: 1.2em;
+  line-height: 1.5em;
   @media screen and (max-width: 440px) {
     font-size: 1.2em;
     line-height: 1.65em;
@@ -62,7 +63,7 @@ const Text = styled.p`
 const Textarea = styled.textarea`
   width: 200px;
   height: 200px;
-  font-family: 'Acme', cursive;
+  font-family: inherit;
   font-size: 1.2em;
   padding: 0.5em;
   box-sizing: border-box;
@@ -93,7 +94,7 @@ const Label = styled.label`
 
 const Nameinput = styled.input`
   width: 200px;
-  font-family: 'Acme', cursive;
+  font-family: inherit;
   font-size: 1.2em;
   padding: 0.5em;
   box-sizing: border-box;
