@@ -190,8 +190,8 @@ export default function UploadForm({
     if (username?.length > 100) {
       return setError('A felhasználónév nem lehet hosszabb, mint 100 karakter!');
     }
-    if (selectedDay !== null) {
-      return setError('Please select a day');
+    if (selectedDay === null) {
+      return setError('Válassz ki egy napot!');
     }
     const present: Present = {
       uuid: uuidV4(),
