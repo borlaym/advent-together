@@ -80,7 +80,7 @@ const DayNumber = styled.span`
   text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
 `;
 
-const Door = styled.div<{ openingDegree: number; }>`
+const Door = styled.div<{ openingDegree: number; doubleDoor?: 'left' | 'right' }>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -98,8 +98,17 @@ const Door = styled.div<{ openingDegree: number; }>`
   transform-style: preserve-3d;
   z-index: 2;
 
-  ${props => props.openingDegree && css`
-    transform: rotate3d(0, 1, 0, ${props.openingDegree * -1}deg) translateZ(1px);
+  ${props => props.openingDegree ? css`
+    transform: rotate3d(0, 1, 0, ${props.doubleDoor === 'right' ? props.openingDegree : props.openingDegree * -1}deg) translateZ(1px);
+  ` : ''}
+
+  ${props => props.doubleDoor ? css`
+    width: 50%;
+  ` : ''}
+
+  ${props => props.doubleDoor === 'right' && css`
+    left: 50%;
+    transform-origin: right 0;
   `}
 `;
 
@@ -173,6 +182,39 @@ export default function CalendarDay({
     return DOOR_OPENING_DEGREES['closed'];
   })();
 
+  const door = dimensions === 'wide' ? (
+    <>
+      <Door
+        openingDegree={doorOpeningDegree}
+        doubleDoor="left"
+        style={{
+          backgroundColor: colorValues[color]
+        }}
+      >
+        <DayNumber>{dayNumber + 1}</DayNumber>
+      </Door>
+      <Door
+        openingDegree={doorOpeningDegree}
+        doubleDoor="right"
+        style={{
+          backgroundColor: colorValues[color]
+        }}
+      >
+        <Icon>{icon}</Icon>
+      </Door>
+    </>
+  ) : (
+    <Door
+      openingDegree={doorOpeningDegree}
+      style={{
+        backgroundColor: colorValues[color]
+      }}
+    >
+      <Icon>{icon}</Icon>
+      <DayNumber>{dayNumber + 1}</DayNumber>
+    </Door>
+  );
+
   return (
     <DayContainer
       id={`day_${dayNumber}`}
@@ -180,15 +222,7 @@ export default function CalendarDay({
       isOpen={isSelected}
       onClick={handleClick}
     >
-      <Door
-        openingDegree={doorOpeningDegree}
-        style={{
-          backgroundColor: colorValues[color]
-        }}
-      >
-        <Icon>{icon}</Icon>
-        <DayNumber>{dayNumber + 1}</DayNumber>
-      </Door>
+      {door}
       <Inside>
         <Present isOpen={isSelected}>{canBeOpened ? 'I' : 'R'}</Present>
       </Inside>
