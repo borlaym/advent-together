@@ -129,7 +129,7 @@ export default function CalendarPage() {
       {calendarData?.calendarName && <Title>( {calendarData?.calendarName} )</Title>}
       <Description>
         <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
-        <p>December minden napján azok, akinek a naptár meg lett osztva, látni fogják, ki mit töltött föl aznapra! Úgyhogy hajrá, töltsd föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
+        <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
       </Description>
       <Wrapper>
         <Row>
