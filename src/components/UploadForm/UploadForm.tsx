@@ -49,6 +49,11 @@ const Text = styled.p`
   color: #f7f7f7e8;
   font-size: 1.5em;
   line-height: 1.65em;
+  @media screen and (max-width: 440px) {
+    font-size: 1.2em;
+    line-height: 1.65em;
+  }
+
   text-align: center;
   text-shadow: 2px 2px 5px rgba(50 50 50 / 0.5);
   width: 90%;

@@ -12,39 +12,45 @@ const Container = styled.div`
   align-items: flex-end;
   justify-content: space-around;
   max-width: 300px;
+  @media screen and (max-width: 440px) {
+    max-width: 270px;
+  }
 `;
 
 const Day = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
   cursor: pointer;
   width: 50px;
+  @media screen and (max-width: 440px) {
+    width: 45px;
+  }
 `;
 
 const PresentsIndicator = styled.div`
   color: black;
-  position: absolute;
-  bottom: 100%;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 5px;
-  padding: 0.2em;
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: flex-start;
+  width: 10px;
 
   .icon {
-    font-size: 24px;
+    font-size: 20px;
     font-family: Advent;
   }
 `;
 
 const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
-  font-size: 26px;
+  font-size: 36px;
+  @media screen and (max-width: 440px) {
+    font-size: 30px;
+  }
   color: rgba(0 0 0 / 0.65);
+  max-width: 40px;
 
   ${props => props.hasPresent && css`
     font-weight: bold;
@@ -54,13 +60,6 @@ const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
     // text-decoration: underline;
     color: hsl(145deg 61% 25%);
   `}
-`;
-
-const Date = styled.div`
-  font-size: 0.8em;
-  white-space: nowrap;
-  color: rgba(0 0 0 / 0.65);
-  margin-right: 5px;
 `;
 
 export default function DaySelector({
@@ -88,21 +87,19 @@ export default function DaySelector({
           if (n === 0) {
             return 0;
           }
-          return Math.min(Math.ceil(((n - minPresents) / range) * 3), n);
+          return Math.min(Math.ceil(((n - minPresents) / range) * 2), n);
         })();
         return (
           <Day key={i} onClick={() => onChange(i)}>
-            {i === selectedDay && <PresentsIndicator>
-              <Date>December {i+1}.</Date>
-              {(new Array(indicator)).fill(true).map((_, i) => (
-                <span className="icon" key={i}>h</span>
-              ))}
-              {n === 0 && <span>🙁</span>}
-            </PresentsIndicator>}
             <DayNumber
               isSelected={i === selectedDay}
               hasPresent={!!n}
             >{i + 1}</DayNumber>
+            <PresentsIndicator>
+              {(new Array(indicator)).fill(true).map((_, i) => (
+                <span className="icon" key={i}>h</span>
+              ))}
+            </PresentsIndicator>
           </Day>
         );
       })}
