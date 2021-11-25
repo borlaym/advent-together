@@ -69,10 +69,6 @@ const DayContainer = styled.div<{
       font-size: 260px;
     }
   `}
-
-  :hover {
-    transform: scale(1.03);
-  }
 `;
 
 const DayNumber = styled.span`
