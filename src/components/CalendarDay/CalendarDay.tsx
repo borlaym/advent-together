@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import styled, { css } from "styled-components";
 import { getCurrentDay } from "../../utils/getCurrentDay";
 
@@ -161,8 +161,7 @@ export default function CalendarDay({
   onClick
 }: Props) {
 
-  const [isOpen, setIsOpen] = useState(false);
-  const handleClick = useCallback(() => onClick(dayNumber), []);
+  const handleClick = useCallback(() => onClick(dayNumber), [dayNumber, onClick]);
 
   const dayInDecember = getCurrentDay();
   const canBeOpened = (dayInDecember >= dayNumber && dayInDecember > -1);
