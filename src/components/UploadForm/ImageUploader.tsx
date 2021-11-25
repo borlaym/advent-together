@@ -12,7 +12,8 @@ const supportedMediaTypes = [
   'image/webp'
 ];
 
-const thumbnail = (id: string) => `https://res.cloudinary.com/adventcalendar/image/upload/w_200,h_200,c_fit/${id}.jpg`;
+export const thumbnail = (id: string) => `https://res.cloudinary.com/adventcalendar/image/upload/w_200,h_200,c_fit/${id}.jpg`;
+export const original = (id: string) => `https://res.cloudinary.com/adventcalendar/image/upload/${id}.jpg`;
 
 const Container = styled.label`
   width: 200px;
