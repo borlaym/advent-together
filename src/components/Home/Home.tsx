@@ -7,6 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { HangingItem } from './HangingItem';
 import { ReactComponent as ChristmasTree } from './hanging-christmas-tree-clipart.svg';
 import { ReactComponent as ChristmasOrnament } from './simple-christmas-bulb-clipart.svg';
+import { Button } from '../UploadForm/Button';
 
 const BodyBackgroundOverride = createGlobalStyle`
   body {
@@ -35,10 +36,6 @@ const Title = styled.h1`
   color: #c8cbb9;
 `;
 
-const FontIcon = styled.span`
-  font-family: Christmas;
-`;
-
 const TextContainer = styled.div`
   width: 60%;
   @media screen and (max-width: 440px) {
@@ -53,28 +50,6 @@ const Text = styled.p`
   line-height: 1.65em;
 `;
 
-const Button = styled.button`
-  display: block;
-  margin: 2em auto;
-  outline: none;
-  border: none;
-  border-radius: 1em;
-  padding: 1rem;
-
-  font-size: 1.5rem;
-  box-shadow: 2px 2px 17px 0px #0000005c;
-  background-color: rgba(100 100 100 / 0.2);
-  color: #fff;
-
-  transition: transform 100ms linear, background-color 100ms linear;
-
-  :hover {
-    background-color: rgba(0 0 0 / 0.2);
-    color: #ddffde;
-    transform: scale(1.05);
-  }
-`;
-
 const Input = styled.input`
   outline: none;
   border-radius: 5px;
@@ -83,7 +58,8 @@ const Input = styled.input`
   box-sizing: border-box;
   width: 100%;
   font-size: 3em;
-  font-family: Christmas;
+  font-family: 'Acme', cursive;
+  text-shadow: 1px 1px 2px rgba(50 50 50 / 0.5);
   background-color: #dfe2d2;
   color: hsl(145, 64%, 24%);
   margin: 0.5em 0 0.5em;
