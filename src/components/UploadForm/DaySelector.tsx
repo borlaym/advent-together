@@ -24,16 +24,20 @@ const Day = styled.div`
 `;
 
 const PresentsIndicator = styled.div`
-  font-size: 24px;
-  font-weight: bold;
   color: black;
-  font-family: Advent;
   position: absolute;
-  top: -150%;
+  bottom: 100%;
   background-color: white;
   border: 1px solid gray;
   border-radius: 5px;
-  padding: 0.2em;
+  padding: 1em;
+  font-size: 18px;
+  text-align: center;
+
+  .icon {
+    font-size: 24px;
+    font-family: Advent;
+  }
 `;
 
 const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
@@ -48,6 +52,12 @@ const DayNumber = styled.div<{ isSelected?: boolean; hasPresent: boolean; }>`
     // text-decoration: underline;
     color: rgba(0 0 0 / 1);
   `}
+`;
+
+const Date = styled.div`
+  font-size: 0.8em;
+  white-space: nowrap;
+  color: rgba(0 0 0 / 0.65);
 `;
 
 export default function DaySelector({
@@ -80,10 +90,11 @@ export default function DaySelector({
         return (
           <Day key={i} onClick={() => onChange(i)}>
             {i === selectedDay && <PresentsIndicator>
+              <Date>December {i}.</Date>
               {(new Array(indicator)).fill(true).map((_, i) => (
-                <div key={i}>h</div>
+                <span className="icon" key={i}>h</span>
               ))}
-              {n === 0 && <span>🙁</span>}
+              {n === 0 && <span>Még semmi<br />🙁</span>}
             </PresentsIndicator>}
             <DayNumber
               isSelected={i === selectedDay}

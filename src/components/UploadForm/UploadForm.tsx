@@ -141,6 +141,17 @@ const Row = styled.div`
   }
 `;
 
+const ListHeader = styled.h3`
+  margin: 1.5em 0 0.5em;
+  padding: 0;
+  font-size: 1.3em;
+`;
+
+const List = styled.ul`
+  margin: 0;
+  list-style-type: '⭐️';
+`;
+
 type Props = {
   calendarId: string;
   defaultSelectedDay: number | null;
@@ -260,12 +271,12 @@ export default function UploadForm({
           )}
           {myPresents.length > 0 && (
             <>
-              <p>Your previously upoloaded presents:</p>
-              <ul>
+              <ListHeader>A már korábban feltöltött ajándékaid</ListHeader>
+              <List>
                 {myPresents.map(present => (
                   <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
                 ))}
-              </ul>
+              </List>
             </>
           )}
         </UploadWrapper>
