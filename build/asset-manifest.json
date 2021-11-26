@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/static/js/main.302efd5d.chunk.js",
-    "main.js.map": "/static/js/main.302efd5d.chunk.js.map",
+    "main.js": "/static/js/main.a07d8e24.chunk.js",
+    "main.js.map": "/static/js/main.a07d8e24.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.7d08d25e.js",
     "runtime-main.js.map": "/static/js/runtime-main.7d08d25e.js.map",
-    "static/js/2.fb7b1106.chunk.js": "/static/js/2.fb7b1106.chunk.js",
-    "static/js/2.fb7b1106.chunk.js.map": "/static/js/2.fb7b1106.chunk.js.map",
+    "static/js/2.82a4a227.chunk.js": "/static/js/2.82a4a227.chunk.js",
+    "static/js/2.82a4a227.chunk.js.map": "/static/js/2.82a4a227.chunk.js.map",
     "index.html": "/index.html",
-    "static/js/2.fb7b1106.chunk.js.LICENSE.txt": "/static/js/2.fb7b1106.chunk.js.LICENSE.txt",
+    "static/js/2.82a4a227.chunk.js.LICENSE.txt": "/static/js/2.82a4a227.chunk.js.LICENSE.txt",
     "static/media/hanging-christmas-tree-clipart.3a417b12.svg": "/static/media/hanging-christmas-tree-clipart.3a417b12.svg",
     "static/media/simple-christmas-bulb-clipart.3a7db4e0.svg": "/static/media/simple-christmas-bulb-clipart.3a7db4e0.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.7d08d25e.js",
-    "static/js/2.fb7b1106.chunk.js",
-    "static/js/main.302efd5d.chunk.js"
+    "static/js/2.82a4a227.chunk.js",
+    "static/js/main.a07d8e24.chunk.js"
   ]
 }

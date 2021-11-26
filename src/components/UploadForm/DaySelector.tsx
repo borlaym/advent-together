@@ -11,7 +11,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-around;
-  max-width: 300px;
+  max-width: 420px;
   @media screen and (max-width: 440px) {
     max-width: 270px;
   }
@@ -24,7 +24,7 @@ const Day = styled.div`
   align-items: flex-start;
   justify-content: flex-end;
   cursor: pointer;
-  width: 50px;
+  width: 70px;
   @media screen and (max-width: 440px) {
     width: 45px;
   }
@@ -33,16 +33,22 @@ const Day = styled.div`
 const PresentsIndicator = styled.div<{ isSelected?: boolean; }>`
   position: absolute;
   top: 0;
-  right: 5px;
+  right: 10px;
   color: black;
   font-size: 16px;
   display: flex;
   flex-wrap: nowrap;
   align-items: flex-start;
+  flex-direction: column;
   width: 10px;
+
+  @media screen and (max-width: 440px) {
+    right: 5px;
+  }
 
   .icon {
     font-size: 20px;
+    line-height: 17px;
     font-family: Advent;
   }
 
@@ -59,7 +65,11 @@ const DayNumber = styled.div<{ isSelected?: boolean; }>`
   }
   color: rgba(0 0 0 / 0.65);
   max-width: 35px;
-  margin-right: 15px;
+  margin-right: 25px;
+
+  @media screen and (max-width: 440px) {
+    margin-right: 15px;
+  }
 
   ${props => props.isSelected && css`
     color: rgba(250 250 250 / 0.9);
@@ -70,10 +80,15 @@ const DayNumber = styled.div<{ isSelected?: boolean; }>`
       top: 0px;
       bottom: 0px;
       left: -15px;
-      right: -15px;
+      right: -25px;
       background-color: #F44336;
       z-index: -1;
       border-radius: 5px;
+
+      @media screen and (max-width: 440px) {
+        left: 0px;
+        right: -15px;
+      }
     }
   `}
 `;
