@@ -9,10 +9,10 @@ type Props = {
   onClose: () => void;
 }
 
-const BGFILLER_ENABLED = false;
+const BGFILLER_ENABLED = true;
 
 const PresentModal = styled(Modal)`
-  background-color: #cc954a;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 5px 5px 10px 0 rgba(50, 50, 50, 0.7);
   min-width: 95%;
@@ -65,16 +65,22 @@ const SlideInner = styled.div<{ textOnly: boolean }>`
 
 const Text = styled.p<{ largeFont?: boolean }>`
   font-size: ${props => props.largeFont ? '2em' : '1.5em'};
+  color: rgb(0 0 0 / 70%);
+  line-height: 1.6em;
+  font-style: italic;
+  overflow-wrap: break-word;
 `;
 
 const Caption = styled.div`
   font-size: 1.5em;
-  padding: 0.3em;
-  background-color: ${BGFILLER_ENABLED ? 'rgba(255 255 255)' : 'transparent'};
   display: inline-block;
-  margin: 5px auto 1em;
-  border-radius: 3px;
+  margin: 1em auto 1em;
   max-width: 90%;
+  text-align: left;
+  color: rgb(0 0 0 / 70%);
+  line-height: 1.6em;
+  font-style: italic;
+  overflow-wrap: break-word;
 `;
 
 const ImageFill = styled.img`
@@ -83,7 +89,6 @@ const ImageFill = styled.img`
   max-height: 95%;
   width: auto;
   height: auto;
-  margin: 1em auto 0;
   border: 2px solid white;
 `;
 
@@ -98,7 +103,7 @@ const Pager = styled.div`
   right: 0;
   font-size: 1.2em;
   padding: 0.5em;
-  background-color: #cc954add;
+  background-color: white;
   border-radius: 5px;
 `;
 
@@ -112,9 +117,23 @@ const BgFiller = styled.div<{ src: string }>`
   background-image: url(${props => props.src});
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   z-index: -1;
   filter: blur(10px) brightness(1.5);
 `;
+
+const Upper = styled.div`
+  height: 80%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+
+const Lower = styled.div`
+  height: 20%;
+`
 
 export default function Presentation({
   dayNumber,
@@ -142,16 +161,20 @@ export default function Presentation({
 const MediaSlide = ({present}) => {
   return (
     <>
-      {BGFILLER_ENABLED && <BgFiller src={original(present.image)} />}
       <SlideInner textOnly={false}>
+        <Upper>
+          {BGFILLER_ENABLED && <BgFiller src={original(present.image)} />}
+          <ImageFill src={original(present.image)} />
+        </Upper>
 
-        <ImageFill src={original(present.image)} />
-        {(present.content || present.uploaderName) && (
-          <Caption>
-            {present.content}
-            <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
-          </Caption>
-        )}
+        <Lower>
+          {(present.content || present.uploaderName) && (
+            <Caption>
+              {present.content}
+              <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
+            </Caption>
+          )}
+        </Lower>
 
       </SlideInner>
     </>
