@@ -122,8 +122,8 @@ const BgFiller = styled.div<{ src: string }>`
   filter: blur(10px) brightness(1.5);
 `;
 
-const Upper = styled.div`
-  height: 80%;
+const Upper = styled.div<{ isFull?: boolean }>`
+  height: ${props => props.isFull ? '100%' : '80%'};
   position: relative;
   display: flex;
   justify-content: center;
@@ -162,19 +162,19 @@ const MediaSlide = ({present}) => {
   return (
     <>
       <SlideInner textOnly={false}>
-        <Upper>
+        <Upper isFull={!present.content && !present.uploaderName}>
           {BGFILLER_ENABLED && <BgFiller src={original(present.image)} />}
           <ImageFill src={original(present.image)} />
         </Upper>
 
-        <Lower>
-          {(present.content || present.uploaderName) && (
-            <Caption>
-              {present.content}
-              <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
-            </Caption>
-          )}
-        </Lower>
+        {(present.content || present.uploaderName) && (
+          <Lower>
+              <Caption>
+                {present.content}
+                <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
+              </Caption>
+          </Lower>
+        )}
 
       </SlideInner>
     </>
