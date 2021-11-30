@@ -167,6 +167,11 @@ export default function Presentation({
               </Slide>
             );
           })}
+          {presents.length === 0 && (
+            <SlideInner textOnly={true}>
+              <Text largeFont={false}>A mai napra senki nem töltött föl semmit :(</Text>
+            </SlideInner>
+          )}
         </SlideShow>
       </PresentModal>
     </Background>
