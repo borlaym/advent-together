@@ -1,8 +1,9 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import styled, { css } from "styled-components";
+import useLinkifyUrls from "../../utils/linkify";
 import { StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal"
-import { original, thumbnail } from '../UploadForm/ImageUploader';
+import { original } from '../UploadForm/ImageUploader';
 
 type Props = {
   dayNumber: number;
@@ -159,6 +160,7 @@ export default function Presentation({
 }
 
 const MediaSlide = ({present}) => {
+  const textContainerRef = useLinkifyUrls();
   return (
     <>
       <SlideInner textOnly={false}>
@@ -169,7 +171,7 @@ const MediaSlide = ({present}) => {
 
         {(present.content || present.uploaderName) && (
           <Lower>
-              <Caption>
+              <Caption ref={textContainerRef}>
                 {present.content}
                 <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
               </Caption>
@@ -182,10 +184,11 @@ const MediaSlide = ({present}) => {
 }
 
 const TextSlide = ({present}) => {
+  const textContainerRef = useLinkifyUrls();
   return (
     <>
       <SlideInner textOnly={true}>
-        <Text largeFont={present.content.length < 300}>{present.content}</Text>
+        <Text largeFont={present.content.length < 300} ref={textContainerRef}>{present.content}</Text>
         <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
       </SlideInner>
     </>
