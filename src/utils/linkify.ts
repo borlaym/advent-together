@@ -24,7 +24,19 @@ function linkify(inputText: string): string {
   replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
   replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
-  return replacedText;
+  const div = document.createElement('div');
+  div.innerHTML = replacedText;
+  Array.from(div.querySelectorAll('a')).forEach(a => {
+    try {
+      const parsedUrl = new URL(a.href);
+      a.innerText = `[${parsedUrl.host}]`;
+    } catch (err) {
+      console.error(a.href)
+      console.error(err);
+    }
+  });
+
+  return div.innerHTML;
 }
 
 export default function useLinkifyUrls() {
