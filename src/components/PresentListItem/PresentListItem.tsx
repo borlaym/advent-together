@@ -28,6 +28,22 @@ const ListItem = styled.li`
   }
 `;
 
+const Text = styled.span`
+  margin-left: 5px;
+  @media screen and (max-width: 440px) {
+    font-size: 0.9em;
+  }
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;
+
+const Date = styled.span`
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.9em;
+`;
+
 export const InlineButton = styled.button`
   display: inline-block;
   margin: 0 0 0 10px;
@@ -54,11 +70,11 @@ export default function PresentListItem({
 
   return (
     <ListItem>
-      December {present.day + 1}: {present.image && (
-        <a href={original(present.image)} target="_blank">
-          <img src={thumbnail(present.image)} />
+      <Date>Dec. {present.day + 1}:</Date> {present.image && (
+        <a href={original(present.image)} target="_blank" rel="noreferrer">
+          <img src={thumbnail(present.image)} alt={present.content} />
         </a>
-      )} {present.content} {present.day > getCurrentDay() && <InlineButton onClick={deleteItem}>Törlés</InlineButton>}
+      )} <Text title={present.content}>{present.content}</Text> {present.day > getCurrentDay() && <InlineButton onClick={deleteItem}>✖</InlineButton>}
     </ListItem>
   )
 }
