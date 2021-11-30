@@ -125,6 +125,15 @@ export default function CalendarPage() {
 
   }, [openUploadForm]);
 
+  useEffect(() => {
+    if (selectedDay !== null) {
+      document.body.classList.add('noscroll');
+    }
+    return () => {
+      document.body.classList.remove('noscroll');
+    }
+  }, [selectedDay])
+
   return (
     <div>
       {calendarData?.calendarName && <Title>{calendarData?.calendarName}</Title>}
