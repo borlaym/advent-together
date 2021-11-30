@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useState, useRef } from "react"
+import React, { useContext, useCallback, useState, useRef, useEffect } from "react"
 import styled, { css } from "styled-components";
 import debounce from 'lodash/debounce';
 import useLinkifyUrls, { parseYoutube } from "../../utils/linkify";
@@ -255,6 +255,23 @@ export default function Presentation({
   const gotoNextPage = useCallback(() => {
     gotoIndex(getCurrentIndex() + 1);
   }, []);
+
+  const handleKeydown = useCallback((event: KeyboardEvent) => {
+    if (event.keyCode === 37) {
+      gotoPrevPage();
+    }
+    if (event.keyCode === 39) {
+      gotoNextPage();
+    }
+
+  }, [gotoNextPage, gotoPrevPage]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    }
+  }, [])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const scrollHandler = useCallback(debounce(function scrollPosChecker() {
