@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components"
+import { getCurrentDay } from "../../utils/getCurrentDay";
 
 type Props = {
   selectedDay?: number;
@@ -57,13 +58,13 @@ const PresentsIndicator = styled.div<{ isSelected?: boolean; }>`
   `}
 `;
 
-const DayNumber = styled.div<{ isSelected?: boolean; }>`
+const DayNumber = styled.div<{ isSelected?: boolean; disabled?: boolean }>`
   position: relative;
   font-size: 36px;
   @media screen and (max-width: 440px) {
     font-size: 30px;
   }
-  color: rgba(0 0 0 / 0.65);
+  color: rgba(0 0 0 / ${props => props.disabled ? '0.25' : '0.65'});
   max-width: 35px;
   margin-right: 25px;
 
@@ -120,9 +121,10 @@ export default function DaySelector({
           }
           return Math.min(Math.ceil(((n - minPresents) / range) * 2), n);
         })();
+        const disabled = i <= getCurrentDay();
         return (
-          <Day key={i} onClick={() => onChange(i)}>
-            <DayNumber isSelected={i === selectedDay}>{i + 1}</DayNumber>
+          <Day key={i} onClick={() => disabled ? null : onChange(i)}>
+            <DayNumber disabled={disabled} isSelected={i === selectedDay}>{i + 1}</DayNumber>
             <PresentsIndicator isSelected={i === selectedDay}>
               {(new Array(indicator)).fill(true).map((_, i) => (
                 <span className="icon" key={i}>h</span>

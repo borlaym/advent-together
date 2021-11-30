@@ -10,6 +10,7 @@ import { DispatchContext, StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal";
 import ImageUploader from "./ImageUploader";
 import { Button } from './Button';
+import { getCurrentDay } from "../../utils/getCurrentDay";
 
 const UploadModal = styled(Modal)`
   background-color: #cc954a;
@@ -202,6 +203,9 @@ export default function UploadForm({
     }
     if (selectedDay === null) {
       return setError('Válassz ki egy napot!');
+    }
+    if (selectedDay <= getCurrentDay()) {
+      return setError('Csak december későbbi napjaira tudsz feltölteni!');
     }
     const present: Present = {
       uuid: uuidV4(),

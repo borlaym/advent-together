@@ -2,6 +2,13 @@ import firebase from "./firebase";
 import { Calendar, Present } from "./types";
 import { v4 as uuid } from 'uuid';
 
+function getCurrentDay(forceDay: number | null) {
+  const actualDayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+  const canForceDay = process.env.NODE_ENV !== 'production';
+  const dayInDecember = forceDay !== null && canForceDay ? forceDay : actualDayInDecember;
+  return dayInDecember;
+}
+
 export const calendarsRef = firebase.ref('/calendar');
 
 export function createCalendar(name: string): Promise<Calendar> {
@@ -30,6 +37,9 @@ export function getCalendarRefByUuid(uuid: string): Promise<string | null> {
 }
 
 export function addPresent(calendarUuid: string, present: Present): Promise<Present> {
+  if (present.day <= getCurrentDay(null)) {
+    throw new Error('Cant add presents to past days');
+  }
   return getCalendarRefByUuid(calendarUuid).then(firebaseId => {
     if (!firebaseId) {
       throw new Error("Can't find calendar with that id");
@@ -63,9 +73,7 @@ export function getVisiblePresents(calendarId: string, forceDay: number | null):
       }, 0);
     }
 
-    const actualDayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
-    const canForceDay = process.env.NODE_ENV !== 'production';
-    const dayInDecember = forceDay !== null && canForceDay ? forceDay : actualDayInDecember;
+    const dayInDecember = getCurrentDay(forceDay);
 
     return {
       presents: presents.filter(p => p.day <= dayInDecember),
