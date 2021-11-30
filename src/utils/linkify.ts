@@ -1,5 +1,14 @@
 import { useEffect, useRef } from "react";
 
+const youtubeRegex = /^http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?$/;
+export function parseYoutube(inputText: string): string | null {
+  const results = youtubeRegex.exec(inputText);
+  if (results) {
+    return results[1];
+  }
+  return null;
+}
+
 function linkify(inputText: string): string {
   var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
@@ -20,10 +29,13 @@ function linkify(inputText: string): string {
 
 export default function useLinkifyUrls() {
   const textContainerRef = useRef(null);
+
   useEffect(() => {
+    const text = textContainerRef.current.innerHTML;
     if (textContainerRef.current) {
-      textContainerRef.current.innerHTML = linkify(textContainerRef.current.innerHTML);
+      textContainerRef.current.innerHTML = linkify(text);
     }
   }, []);
+
   return textContainerRef;
 }
