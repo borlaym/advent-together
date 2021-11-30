@@ -66,19 +66,58 @@ const SlideInner = styled.div<{ textOnly: boolean }>`
   `}
 `;
 
-const Text = styled.p<{ largeFont?: boolean }>`
-  font-size: ${props => props.largeFont ? '2em' : '1.5em'};
+const Text = styled.p`
   color: rgb(0 0 0 / 70%);
   line-height: 1.6em;
   font-style: italic;
   overflow-wrap: break-word;
+  max-width: 80%;
+  @media screen and (max-width: 440px) {
+    max-width: 100%;
+  }
 `;
+
+const TextWrap = styled.div<{ shortText: boolean }>`
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2em 0;
+  box-sizing: border-box;
+
+  font-size: 1.5em;
+  @media screen and (max-width: 440px) {
+    font-size: 1.2em;
+  }
+
+  ${props => props.shortText && css`
+    justify-content: center;
+    font-size: 2em;
+    @media screen and (max-width: 440px) {
+      font-size: 1.5em;
+    }
+
+    & ${Text} {
+      text-align: center;
+      max-width: 60%;
+      @media screen and (max-width: 440px) {
+        max-width: 100%;
+      }
+    }
+  `}
+`;
+
 
 const Caption = styled.div`
   font-size: 1.5em;
   display: inline-block;
   margin: 1em auto 1em;
-  max-width: 90%;
+  width: 60%;
+  @media screen and (max-width: 440px) {
+    width: 90%;
+  }
   text-align: left;
   color: rgb(0 0 0 / 70%);
   line-height: 1.6em;
@@ -97,7 +136,12 @@ const ImageFill = styled.img`
 
 const Uploader = styled.div`
   font-family: cursive;
-  margin-left: 10px;
+  font-size: 0.9em;
+  text-align: right;
+  width: 60%;
+  @media screen and (max-width: 440px) {
+    max-width: 100%;
+  }
 `;
 
 const BgFiller = styled.div<{ src: string }>`
@@ -167,8 +211,8 @@ const CloseButton = styled.a`
   padding: 0.5em;
   z-index: 1;
   cursor: pointer;
-  color: #ff4343;
-  text-shadow: 1px 3px 1px #62626261;
+  color: #ff434380;
+  // text-shadow: 1px 3px 1px #62626261;
   font-size: 1.5em;
 `;
 
@@ -275,7 +319,7 @@ export default function Presentation({
           })}
           {presents.length === 0 && (
             <SlideInner textOnly={true}>
-              <Text largeFont={false}>A mai napra senki nem töltött föl semmit :(</Text>
+              <Text>A mai napra senki nem töltött föl semmit :(</Text>
             </SlideInner>
           )}
         </SlideShow>
@@ -313,8 +357,10 @@ const TextSlide = ({present}) => {
   return (
     <>
       <SlideInner textOnly={true}>
-        <Text largeFont={present.content.length < 300} ref={textContainerRef}>{present.content}</Text>
-        <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
+        <TextWrap shortText={present.content.length < 300}>
+          <Text ref={textContainerRef}>{present.content}</Text>
+          <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
+        </TextWrap>
       </SlideInner>
     </>
   );
