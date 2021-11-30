@@ -1,8 +1,9 @@
 import React, { useContext } from "react"
 import styled, { css } from "styled-components";
+import useLinkifyUrls, { parseYoutube } from "../../utils/linkify";
 import { StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal"
-import { original, thumbnail } from '../UploadForm/ImageUploader';
+import { original } from '../UploadForm/ImageUploader';
 
 type Props = {
   dayNumber: number;
@@ -146,12 +147,26 @@ export default function Presentation({
     <Background onClick={onClose}>
       <PresentModal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
         <SlideShow>
-          {presents.map((present, i) => (
-            <Slide key={present.uuid}>
-              <Pager>{i+1} / {presents.length}</Pager>
-              {present.image ? <MediaSlide present={present} /> : <TextSlide present={present} />}
-            </Slide>
-          ))}
+          {presents.map((present, i) => {
+            const youtubeId = parseYoutube(present.content);
+
+            const slideContent = (() => {
+              if (youtubeId) {
+                return <YoutubeSlide id={youtubeId} present={present} />;
+              }
+              if (present.image) {
+                return <MediaSlide present={present} />;
+              }
+              return <TextSlide present={present} />
+            })();
+
+            return (
+              <Slide key={present.uuid}>
+                <Pager>{i+1} / {presents.length}</Pager>
+                {slideContent}
+              </Slide>
+            );
+          })}
         </SlideShow>
       </PresentModal>
     </Background>
@@ -159,6 +174,7 @@ export default function Presentation({
 }
 
 const MediaSlide = ({present}) => {
+  const textContainerRef = useLinkifyUrls();
   return (
     <>
       <SlideInner textOnly={false}>
@@ -169,7 +185,7 @@ const MediaSlide = ({present}) => {
 
         {(present.content || present.uploaderName) && (
           <Lower>
-              <Caption>
+              <Caption ref={textContainerRef}>
                 {present.content}
                 <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
               </Caption>
@@ -182,12 +198,36 @@ const MediaSlide = ({present}) => {
 }
 
 const TextSlide = ({present}) => {
+  const textContainerRef = useLinkifyUrls();
   return (
     <>
       <SlideInner textOnly={true}>
-        <Text largeFont={present.content.length < 300}>{present.content}</Text>
+        <Text largeFont={present.content.length < 300} ref={textContainerRef}>{present.content}</Text>
         <Uploader>{present.uploaderName ? `- ${present.uploaderName}` : null}</Uploader>
       </SlideInner>
     </>
+  );
+}
+
+function YoutubeSlide({ id, present }) {
+  return (
+    <SlideInner textOnly={false}>
+      <Upper isFull={!present.uploaderName}>
+        <iframe
+          width="100%"
+          height="100%"
+          src={`https://www.youtube.com/embed/${id}`}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </Upper>
+      {present.uploaderName && (<Lower>
+        <Caption>
+          <Uploader>{`- ${present.uploaderName}`}</Uploader>
+        </Caption>
+      </Lower>)}
+    </SlideInner>
   );
 }
