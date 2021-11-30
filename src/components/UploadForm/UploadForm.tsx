@@ -155,7 +155,12 @@ const ListHeader = styled.h3`
 `;
 
 const List = styled.ul`
-  margin: 0;
+  width: 80%;
+  @media screen and (max-width: 440px) {
+    width: 100%;
+  }
+  margin: 0 auto;
+  padding-left: 0;
   list-style-type: '⭐️';
 `;
 
