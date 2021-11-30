@@ -37,6 +37,7 @@ export function getCalendarRefByUuid(uuid: string): Promise<string | null> {
 }
 
 export function addPresent(calendarUuid: string, present: Present): Promise<Present> {
+  console.log('adding present', present);
   if (present.day <= getCurrentDay(null)) {
     throw new Error('Cant add presents to past days');
   }
@@ -102,6 +103,13 @@ export function deletePresent(calendarId: string, userId: string, presentId: str
       });
       if (!presentRef) {
         throw new Error("Can't find valid present to delete");
+      }
+
+      const present = data[presentRef];
+      console.log('removing present', present);
+
+      if (present.day <= getCurrentDay(null)) {
+        throw new Error('Cant delete presents from past days');
       }
       return firebase.ref(`/calendar/${ref}/presents/${presentRef}`).remove().then(() => true);
     });

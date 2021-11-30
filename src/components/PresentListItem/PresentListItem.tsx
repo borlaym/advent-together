@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useCallback } from "react";
 import { Present } from "../../types";
 import { original, thumbnail } from '../UploadForm/ImageUploader';
+import { getCurrentDay } from '../../utils/getCurrentDay';
 
 const ListItem = styled.li`
   margin: 0.3em;
@@ -57,7 +58,7 @@ export default function PresentListItem({
         <a href={original(present.image)} target="_blank">
           <img src={thumbnail(present.image)} />
         </a>
-      )} {present.content} <InlineButton onClick={deleteItem}>Törlés</InlineButton>
+      )} {present.content} {present.day > getCurrentDay() && <InlineButton onClick={deleteItem}>Törlés</InlineButton>}
     </ListItem>
   )
 }
