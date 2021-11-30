@@ -71,21 +71,33 @@ const Text = styled.p`
   line-height: 1.6em;
   font-style: italic;
   overflow-wrap: break-word;
+  max-width: 80%;
+  @media screen and (max-width: 440px) {
+    max-width: 100%;
+  }
 `;
 
 const TextWrap = styled.div<{ shortText: boolean }>`
   display: flex;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding: 2em 0;
+  box-sizing: border-box;
 
   font-size: 1.5em;
+  @media screen and (max-width: 440px) {
+    font-size: 1.2em;
+  }
 
   ${props => props.shortText && css`
     justify-content: center;
     font-size: 2em;
+    @media screen and (max-width: 440px) {
+      font-size: 1.5em;
+    }
 
     & ${Text} {
       text-align: center;
@@ -93,9 +105,6 @@ const TextWrap = styled.div<{ shortText: boolean }>`
       @media screen and (max-width: 440px) {
         max-width: 100%;
       }
-    }
-    & ${Uploader} {
-      padding-bottom: 0;
     }
   `}
 `;
@@ -129,7 +138,6 @@ const Uploader = styled.div`
   font-family: cursive;
   font-size: 0.9em;
   text-align: right;
-  padding-bottom: 4em;
   width: 60%;
   @media screen and (max-width: 440px) {
     max-width: 100%;
@@ -203,8 +211,8 @@ const CloseButton = styled.a`
   padding: 0.5em;
   z-index: 1;
   cursor: pointer;
-  color: #ff4343;
-  text-shadow: 1px 3px 1px #62626261;
+  color: #ff434380;
+  // text-shadow: 1px 3px 1px #62626261;
   font-size: 1.5em;
 `;
 
