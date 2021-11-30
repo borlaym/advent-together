@@ -71,8 +71,8 @@ export default function PresentListItem({
   return (
     <ListItem>
       <Date>Dec. {present.day + 1}:</Date> {present.image && (
-        <a href={original(present.image)} target="_blank">
-          <img src={thumbnail(present.image)} />
+        <a href={original(present.image)} target="_blank" rel="noreferrer">
+          <img src={thumbnail(present.image)} alt={present.content} />
         </a>
       )} <Text title={present.content}>{present.content}</Text> {present.day > getCurrentDay() && <InlineButton onClick={deleteItem}>✖</InlineButton>}
     </ListItem>
