@@ -27,11 +27,15 @@ const Title = styled.h1`
   font-family: 'Great Vibes', cursive;
   font-weight: normal;
   font-size: 5em;
+  @media screen and (max-width: 440px) {
+    font-size: 4em;
+  }
   color: white; // hsl(145, 64%, 24%);
   text-shadow: 2px 3px 5px rgba(50 50 50 / 0.6);
   margin: 3rem 0 0;
-  padding: 0;
+  padding: 0 0.5em;
   width: 100%;
+  box-sizing: border-box;
   text-align: center;
 `;
 
