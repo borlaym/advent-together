@@ -7,6 +7,6 @@ export const enforceDay = enforceDayRegexResult ? Number(enforceDayRegexResult[1
  * Uses force parameter as well
  */
 export function getCurrentDay(): number {
-  const dayInDecember = Math.floor((Date.now() - Number(new Date('2021/12/01'))) / 1000 * 60 * 60 * 24);
+  const dayInDecember = Math.floor((Date.now() - Number(new Date('2021/12/01'))) / (1000 * 60 * 60 * 24));
   return enforceDay !== null ? enforceDay : dayInDecember;
 }

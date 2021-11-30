@@ -3,9 +3,9 @@ import { Calendar, Present } from "./types";
 import { v4 as uuid } from 'uuid';
 
 function getCurrentDay(forceDay: number | null) {
-  const actualDayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / 1000 * 60 * 60 * 24);
+  const actualDayInDecember = Math.floor((Date.now() - Number(new Date('2021.12.01'))) / (1000 * 60 * 60 * 24));
   const canForceDay = process.env.NODE_ENV !== 'production';
-  const dayInDecember = forceDay !== null && canForceDay ? forceDay : actualDayInDecember;
+  const dayInDecember = (forceDay !== null && canForceDay) ? forceDay : actualDayInDecember;
   return dayInDecember;
 }
 
