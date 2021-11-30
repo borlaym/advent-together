@@ -74,7 +74,7 @@ export function getVisiblePresents(calendarId: string, forceDay: number | null):
       }, 0);
     }
 
-    const dayInDecember = getCurrentDay(forceDay);
+    const dayInDecember = getCurrentDay(null);
 
     return {
       presents: presents.filter(p => p.day <= dayInDecember),
