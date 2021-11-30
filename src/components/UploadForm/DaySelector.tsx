@@ -119,7 +119,7 @@ export default function DaySelector({
           if (n === 0) {
             return 0;
           }
-          return Math.min(Math.ceil(((n - minPresents) / range) * 2), n);
+          return Math.max(Math.min(Math.ceil(((n - minPresents) / range) * 2), n), 1);
         })();
         const disabled = i <= getCurrentDay();
         return (
