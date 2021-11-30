@@ -1,9 +1,11 @@
-import React, { useContext } from "react"
+import React, { useContext, useCallback, useState, useRef } from "react"
 import styled, { css } from "styled-components";
+import debounce from 'lodash/debounce';
 import useLinkifyUrls, { parseYoutube } from "../../utils/linkify";
 import { StateContext } from "../DataProvider/DataProvider";
 import { Background, Modal } from "../Modal/Modal"
 import { original } from '../UploadForm/ImageUploader';
+
 
 type Props = {
   dayNumber: number;
@@ -98,16 +100,6 @@ const Uploader = styled.div`
   margin-left: 10px;
 `;
 
-const Pager = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-size: 1.2em;
-  padding: 0.5em;
-  background-color: white;
-  border-radius: 5px;
-`;
-
 const BgFiller = styled.div<{ src: string }>`
   position: absolute;
   top: 0;
@@ -136,6 +128,50 @@ const Lower = styled.div`
   height: 20%;
 `
 
+const PagerWrapper = styled.div`
+  // at the bottom of modal
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  // with some spacing left form the edges
+  padding: 0 1em;
+  @media screen and (max-width: 440px) {
+    padding: 0 0.2em;
+  }
+  // aligned with the buttons at the edges
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  // above everything
+  z-index: 1;
+`;
+
+const PagerButton = styled.a<{ enabled: boolean }>`
+  color: #479e6b;
+  text-shadow: 1px 3px 1px #62626261;
+  font-size: 10em;
+  cursor: pointer;
+  @media screen and (max-width: 440px) {
+    font-size: 5em;
+  }
+  transition: opacity 250ms ease-in;
+  opacity: ${props => props.enabled ? 1 : 0};
+`;
+
+const CloseButton = styled.a`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5em;
+  z-index: 1;
+  cursor: pointer;
+  color: #ff4343;
+  text-shadow: 1px 3px 1px #62626261;
+  font-size: 1.5em;
+`;
+
 export default function Presentation({
   dayNumber,
   onClose
@@ -143,10 +179,64 @@ export default function Presentation({
   const { calendarData } = useContext(StateContext);
   const presents = calendarData.presents.filter(p => p.day === dayNumber);
 
+  // paging related
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const [hasNextPage, setHasNextPage] = useState(presents.length > 0);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
+
+  function getCurrentIndex() {
+    if (!sliderRef.current) {
+      return 0;
+    }
+    const width = sliderRef.current.offsetWidth;
+    const leftPos = sliderRef.current.scrollLeft;
+    return Math.round(leftPos / width);
+  }
+
+  function gotoIndex(index) {
+    if (!sliderRef.current.childNodes[index]) {
+      return;
+    }
+    sliderRef.current.childNodes[index].scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center'
+    });
+  }
+
+  const gotoPrevPage = useCallback(() => {
+    gotoIndex(getCurrentIndex() - 1);
+  }, []);
+
+  const gotoNextPage = useCallback(() => {
+    gotoIndex(getCurrentIndex() + 1);
+  }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const scrollHandler = useCallback(debounce(function scrollPosChecker() {
+    if (!sliderRef.current) {
+      return;
+    }
+    const width = sliderRef.current.offsetWidth;
+    const scrollWidth = sliderRef.current.scrollWidth;
+    const leftPos = sliderRef.current.scrollLeft;
+
+    setHasPrevPage(leftPos > 0);
+    setHasNextPage((leftPos + width) < (scrollWidth - 50));
+  }, 30, { leading: false, trailing: true }), []);
+
   return (
     <Background onClick={onClose}>
       <PresentModal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-        <SlideShow>
+
+        <PagerWrapper>
+          <PagerButton onClick={gotoPrevPage} enabled={hasPrevPage}>‹</PagerButton>
+          <PagerButton onClick={gotoNextPage} enabled={hasNextPage}>›</PagerButton>
+        </PagerWrapper>
+
+        <CloseButton onClick={onClose}>✖</CloseButton>
+
+        <SlideShow ref={sliderRef} onScroll={scrollHandler}>
           {presents.map((present, i) => {
             const youtubeId = parseYoutube(present.content);
 
@@ -162,7 +252,6 @@ export default function Presentation({
 
             return (
               <Slide key={present.uuid}>
-                <Pager>{i+1} / {presents.length}</Pager>
                 {slideContent}
               </Slide>
             );
