@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import {
   Link,
   useParams
@@ -7,20 +7,45 @@ import { Present } from "../../types";
 import getJson from "../../utils/api";
 import { createAndGetUserId } from "../../utils/userId";
 import CalendarDay, { DOOR_ANIMATION_LENGTH } from "../CalendarDay/CalendarDay";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import UploadForm from "../UploadForm/UploadForm";
 import { DispatchContext, CalendarData, StateContext } from "../DataProvider/DataProvider";
 import { getCurrentDay } from "../../utils/getCurrentDay";
 import Presentation from "../Presentation/Presentation";
 import { InlineButton } from "../PresentListItem/PresentListItem";
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ enlarge?: boolean }>`
   margin: 2rem auto;
   max-width: calc(calc(var(--size) + var(--margin)) * 4);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  transition: transform ${DOOR_ANIMATION_LENGTH}ms;
+  position: relative;
+  z-index: 1;
+
+  :after {
+    content: '';
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transition: all ${DOOR_ANIMATION_LENGTH-400}ms;
+    transition-delay: 400ms;
+    background-color: rgba(255,255,255,0);
+    z-index: 2;
+    pointer-events: none;
+  }
+  ${props => props.enlarge && css`
+    transform: scale(2);
+    :after {
+      display: block;
+      background-color: rgba(255,255,255,1);
+    }
+  `}
 `;
 
 const Title = styled.h1`
@@ -125,6 +150,24 @@ export default function CalendarPage() {
 
   }, [openUploadForm]);
 
+
+  const zoomTarget = useMemo(() => {
+    const selectedDayWindow = document.getElementById(`day_${selectedDay}`);
+    const calendar = document.getElementById('calendar');
+    if (selectedDayWindow && calendar) {
+      const zoomTarget = ['', ''];
+      const selectedDayWindowCoords = selectedDayWindow.getBoundingClientRect();
+      const calendarCoords = calendar.getBoundingClientRect();
+      zoomTarget[0] = (selectedDayWindowCoords.x - calendarCoords.x + 100) + 'px';
+      zoomTarget[1] = (selectedDayWindowCoords.y - calendarCoords.y + 100) + 'px';
+      return zoomTarget;
+    } else {
+      return ['50%', '50%'];
+    }
+  }, [selectedDay]);
+
+  console.log(zoomTarget)
+
   return (
     <div>
       {calendarData?.calendarName && <Title>{calendarData?.calendarName}</Title>}
@@ -132,7 +175,9 @@ export default function CalendarPage() {
         <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
         <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
       </Description>
-      <Wrapper>
+      <Wrapper enlarge={selectedDay !== null} id="calendar" style={{
+        transformOrigin: zoomTarget.join(' ')
+      }}>
         <Row>
           <CalendarDay isSelected={selectedDay === 12} color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
           <CalendarDay isSelected={selectedDay === 7} color="green" dayNumber={7} icon="a" onClick={handleDayClick} />

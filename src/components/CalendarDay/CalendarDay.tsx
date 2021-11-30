@@ -91,7 +91,7 @@ const Door = styled.div<{ openingDegree: number; doubleDoor?: 'left' | 'right' }
   padding-right: 0.5rem;
 
   /* this makes things 3d */
-  transition: transform ${DOOR_ANIMATION_LENGTH}ms ease-in-out;
+  transition: transform ${DOOR_ANIMATION_LENGTH}ms ease-out;
   /* rotate rotates(!), translateZ fixes safari... */
   transform: rotate3d(0, 1, 0, 0) translateZ(1px);
   transform-origin: left 0; /* hogy a bal sarok nyiljon */
