@@ -43,8 +43,8 @@ export default function useLinkifyUrls() {
   const textContainerRef = useRef(null);
 
   useEffect(() => {
-    const text = textContainerRef.current.innerHTML;
     if (textContainerRef.current) {
+      const text = textContainerRef.current.innerHTML;
       textContainerRef.current.innerHTML = linkify(text);
     }
   }, []);
