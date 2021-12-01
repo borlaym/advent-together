@@ -115,12 +115,12 @@ export default function DaySelector({
   return (
     <Container>
       {numberOfPresents.map((n, i) => {
-        const indicator = (() => {
+        const indicator = (range > 0) ? (() => {
           if (n === 0) {
             return 0;
           }
           return Math.max(Math.min(Math.ceil(((n - minPresents) / range) * 2), n), 1);
-        })();
+        })() : (minPresents > 0 ? 1 : 0);
         const disabled = i <= getCurrentDay();
         return (
           <Day key={i} onClick={() => disabled ? null : onChange(i)}>
