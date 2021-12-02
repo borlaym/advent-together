@@ -138,12 +138,20 @@ export default function CalendarPage() {
     }
   }, [selectedDay])
 
+  if (!calendarData) {
+    return <></>;
+  }
+
   return (
     <div>
       {calendarData?.calendarName && <Title>{calendarData?.calendarName}</Title>}
       <Description>
-        <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
-        <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
+        {calendarData?.description ? calendarData.description :
+          <>
+            <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
+            <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
+          </>
+        }
       </Description>
       <Wrapper>
         <Row>

@@ -11,4 +11,5 @@ export type Calendar = {
   uuid: string;
   presents: Present[];
   name: string;
+  description: string;
 }

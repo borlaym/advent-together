@@ -11,6 +11,7 @@ export type Calendar = {
   uuid: string;
   presents: Present[];
   name: string;
+  description: string;
 }
 
 export function isValidPresent(data: any): boolean {
