@@ -26,14 +26,8 @@ const DayContainer = styled.div<{
   isOpen: boolean;
 }>`
   position: relative;
-  float: left;
-  width: var(--size);
-  height: var(--size);
-
-  margin-top: 0;
-  margin-left: 0;
-  margin-right: var(--margin);
-  margin-bottom: var(--margin);
+  width: 100%;
+  height: 100%;
 
   box-sizing: border-box;
   border-radius: 5px;
@@ -51,8 +45,6 @@ const DayContainer = styled.div<{
   box-shadow: 5px 5px 10px 0 rgba(50, 50, 50, 0.7);
 
   ${props => props.dimensions === 'tall' && css`
-    height: calc(calc(var(--size) * 2) + var(--margin));
-
     ${Icon} {
       font-size: 200px;
       @media screen and (max-width: 440px) {
@@ -60,14 +52,9 @@ const DayContainer = styled.div<{
       }
     }
   `}
-  ${props => props.dimensions === 'wide' && css`
-    width: calc(calc(var(--size) * 2) + var(--margin));
-  `}
   ${props => props.dimensions === 'large' && css`
     // overriding perspective, to make the opening nicer
     perspective:60rem;
-    width: calc(calc(var(--size) * 2) + var(--margin));
-    height: calc(calc(var(--size) * 2) + var(--margin));
 
     ${Icon} {
       font-size: 260px;
@@ -226,6 +213,7 @@ export default function CalendarDay({
       dimensions={dimensions}
       isOpen={isSelected}
       onClick={handleClick}
+      className={`d${dayNumber + 1}`}
     >
       {door}
       <Inside>

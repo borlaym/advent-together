@@ -14,13 +14,96 @@ import { getCurrentDay } from "../../utils/getCurrentDay";
 import Presentation from "../Presentation/Presentation";
 import { InlineButton } from "../PresentListItem/PresentListItem";
 
-const Wrapper = styled.div`
+const Grid = styled.div`
   margin: 2rem auto;
+  padding: 0 var(--margin);
   max-width: calc(calc(var(--size) + var(--margin)) * 4);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: var(--margin);
+  grid-auto-flow: row;
+  grid-template-areas:
+    "d13 d8 d15 d3"
+    "d22 d19 d15 d10"
+    "d2 d2 d24 d24"
+    "d18 d7 d24 d24"
+    "d9 d17 d11 d5"
+    "d21 d21 d1 d14"
+    "d6 d16 d23 d23"
+    "d6 d20 d12 d4";
+
+  @media screen and (max-width: 440px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+      "d13 d8"
+      "d22 d19"
+      "d15 d3"
+      "d15 d10"
+      "d2 d2"
+      "d18 d7"
+      "d24 d24"
+      "d24 d24"
+      "d9 d17"
+      "d21 d21"
+      "d11 d5"
+      "d1 d14"
+      "d6 d16"
+      "d6 d20"
+      "d23 d23"
+      "d12 d4";
+  }
+
+.d13 { grid-area: d13; }
+
+.d8 { grid-area: d8; }
+
+.d22 { grid-area: d22; }
+
+.d19 { grid-area: d19; }
+
+.d15 { grid-area: d15; }
+
+.d3 { grid-area: d3; }
+
+.d10 { grid-area: d10; }
+
+.d24 { grid-area: d24; }
+
+.d2 { grid-area: d2; }
+
+.d18 { grid-area: d18; }
+
+.d7 { grid-area: d7; }
+
+.d9 { grid-area: d9; }
+
+.d17 { grid-area: d17; }
+
+.d11 { grid-area: d11; }
+
+.d5 { grid-area: d5; }
+
+.d21 { grid-area: d21; }
+
+.d1 { grid-area: d1; }
+
+.d14 { grid-area: d14; }
+
+.d6 { grid-area: d6; }
+
+.d16 { grid-area: d16; }
+
+.d23 { grid-area: d23; }
+
+.d20 { grid-area: d20; }
+
+.d12 { grid-area: d12; }
+
+.d4 { grid-area: d4; }
+
 `;
 
 const Title = styled.h1`
@@ -168,48 +251,32 @@ export default function CalendarPage() {
         }
 
       </Description>
-      <Wrapper>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 12} color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 7} color="green" dayNumber={7} icon="a" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 21} color="yellow" dayNumber={21} icon="m" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 18} color="blue" dayNumber={18} icon="i" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 14} color="darkred" dayNumber={14} dimensions="tall" icon="g" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 2} color="yellow" dayNumber={2} icon="x" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 9} color="blue" dayNumber={9} icon="j" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 1} color="purple" dayNumber={1} dimensions="wide" icon="A" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 17} color="beige" dayNumber={17} icon="l" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 6} color="darkblue" dayNumber={6} icon="p" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 23} color="darkgreen" dayNumber={23} dimensions="large" icon="v" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 8} color="blue" dayNumber={8} icon="y" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 16} color="darkred" dayNumber={16} icon="f" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 20} color="green" dayNumber={20} dimensions="wide" icon="O" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 10} color="yellow" dayNumber={10} icon="C" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 4} color="purple" dayNumber={4} icon="V" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 0} color="blue" dayNumber={0} icon="b" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 13} color="red" dayNumber={13}  icon="H" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 5} color="red" dayNumber={5} dimensions="tall" icon="s" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 15} color="darkblue" dayNumber={15} icon="E" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 19} color="yellow" dayNumber={19} icon="F" onClick={handleDayClick} />
-        </Row>
-        <Row>
-          <CalendarDay isSelected={selectedDay === 22} color="beige" dayNumber={22} dimensions="wide" icon="X" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 11} color="darkred" dayNumber={11} icon="c" onClick={handleDayClick} />
-          <CalendarDay isSelected={selectedDay === 3} color="green" dayNumber={3}  icon="T" onClick={handleDayClick} />
-        </Row>
-      </Wrapper>
+      <Grid>
+        <CalendarDay isSelected={selectedDay === 12} color="red" dayNumber={12} icon="R" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 7} color="green" dayNumber={7} icon="a" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 21} color="yellow" dayNumber={21} icon="m" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 18} color="blue" dayNumber={18} icon="i" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 14} color="darkred" dayNumber={14} dimensions="tall" icon="g" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 2} color="yellow" dayNumber={2} icon="x" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 9} color="blue" dayNumber={9} icon="j" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 1} color="purple" dayNumber={1} dimensions="wide" icon="A" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 17} color="beige" dayNumber={17} icon="l" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 6} color="darkblue" dayNumber={6} icon="p" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 23} color="darkgreen" dayNumber={23} dimensions="large" icon="v" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 8} color="blue" dayNumber={8} icon="y" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 16} color="darkred" dayNumber={16} icon="f" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 20} color="green" dayNumber={20} dimensions="wide" icon="O" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 10} color="yellow" dayNumber={10} icon="C" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 4} color="purple" dayNumber={4} icon="V" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 0} color="blue" dayNumber={0} icon="b" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 13} color="red" dayNumber={13}  icon="H" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 5} color="red" dayNumber={5} dimensions="tall" icon="s" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 15} color="darkblue" dayNumber={15} icon="E" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 19} color="yellow" dayNumber={19} icon="F" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 22} color="beige" dayNumber={22} dimensions="wide" icon="X" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 11} color="darkred" dayNumber={11} icon="c" onClick={handleDayClick} />
+        <CalendarDay isSelected={selectedDay === 3} color="green" dayNumber={3}  icon="T" onClick={handleDayClick} />
+      </Grid>
 
       {isUploadFormOpen && (
         <UploadForm
