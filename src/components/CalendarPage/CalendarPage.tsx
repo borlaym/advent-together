@@ -142,16 +142,31 @@ export default function CalendarPage() {
     return <></>;
   }
 
+  const isUnka = uuid === 'a3f731b4-7047-42ef-a1ff-a57192ff186a';
+
   return (
     <div>
       {calendarData?.calendarName && <Title>{calendarData?.calendarName}</Title>}
       <Description>
-        {calendarData?.description ? calendarData.description :
+        {calendarData?.description &&
+          <>
+            <p>{calendarData.description}</p>
+            <br />
+          </>
+        }
+
+        {isUnka ?
+          <>
+          <p>Welcome to our shared online Advent calendar! Upload a surprise or two to share, and check back every day for a new surprise!</p>
+          <p>If you want to create another calendar for another group, click here! (🇭🇺 only)<br /> Upload a picture, short text, or a Youtube link for the chosen day! On that day everyone who checks this calendar will see your upload.</p>
+          </>
+        :
           <>
             <p>Itt a közös online adventi naptáratok! Küldd tovább az oldal urljét azoknak, akikkel együtt szeretnéd várni a karácsonyt, majd <InlineButton onClick={openUploadForm}>tölts föl</InlineButton> meglepetéseket!</p>
             <p>December minden napján látni fogjátok, ki mit töltött föl aznapra! Úgyhogy hajrá, tölts föl sok ajándékot, és ha szeretnél egy másik társasággal külön naptárat, <Link to="/">kattints ide</Link>!</p>
           </>
         }
+
       </Description>
       <Wrapper>
         <Row>
