@@ -45,6 +45,7 @@ const DeleteButton = styled.div`
 
 
 type Props = {
+  isUnka?: boolean;
   image: string | null;
   onImageAdded: (img: string) => void;
   onImageRemoved: () => void;
@@ -53,7 +54,8 @@ type Props = {
 export default function ImageUploader({
   onImageAdded,
   onImageRemoved,
-  image
+  image,
+  isUnka
 }: Props) {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -111,7 +113,7 @@ export default function ImageUploader({
           onChange={startUpload}
           accept={supportedMediaTypes.join(', ')}
         />
-        {isLoading ? 'Töltés...' : 'Tölts fel egy képet!'}
+        {isLoading ? (isUnka ? 'Uploading...' : 'Töltés...') : (isUnka ? 'Upload an image' : 'Tölts fel egy képet!')}
       </Container>
     )
   }
@@ -123,7 +125,7 @@ export default function ImageUploader({
         backgroundImage: `url('${thumbnail(image)}')`
       }}
     >
-      <DeleteButton onClick={handleRemove}>Törlés</DeleteButton>
+      <DeleteButton onClick={handleRemove}>{isUnka ? 'Remove' : 'Törlés'}</DeleteButton>
     </Container>
   )
 }

@@ -184,6 +184,7 @@ export default function UploadForm({
   const userId = createAndGetUserId(calendarId);
   const contentRef = useRef(null);
   const [error, setError] = useState('');
+  const isUnka = calendarId === 'a3f731b4-7047-42ef-a1ff-a57192ff186a';
 
   const handleNameChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value), []);
   const handleDayChange = useCallback((day: number) => {
@@ -198,19 +199,19 @@ export default function UploadForm({
   const handleSubmit = useCallback(() => {
     const content = contentRef.current?.value;
     if (!content && !image) {
-      return setError('Adj meg vagy egy képet vagy egy üzenetet!');
+      return setError(isUnka ? 'Add an image or some text!' : 'Adj meg vagy egy képet vagy egy üzenetet!');
     }
     if (content.length > 2000) {
-      return setError('Az üzenet maximális hossza 2000 karakter!');
+      return setError(isUnka ? 'Maximum size of message is 2000 characters!' : 'Az üzenet maximális hossza 2000 karakter!');
     }
     if (username?.length > 100) {
-      return setError('A felhasználónév nem lehet hosszabb, mint 100 karakter!');
+      return setError(isUnka ? 'Name can\'t be longer than 100 characters' : 'A felhasználónév nem lehet hosszabb, mint 100 karakter!');
     }
     if (selectedDay === null) {
-      return setError('Válassz ki egy napot!');
+      return setError(isUnka ? 'Choose a day!' : 'Válassz ki egy napot!');
     }
     if (selectedDay <= getCurrentDay()) {
-      return setError('Csak december későbbi napjaira tudsz feltölteni!');
+      return setError(isUnka ? 'You can only upload to later days' : 'Csak december későbbi napjaira tudsz feltölteni!');
     }
     const present: Present = {
       uuid: uuidV4(),
@@ -258,11 +259,18 @@ export default function UploadForm({
       <UploadModal onClick={(e: React.MouseEvent) => e.stopPropagation()}>
         <UploadWrapper>
           <CloseButton onClick={onClose}>x</CloseButton>
-          <Title>Ajándékozni jó!</Title>
-          <Text>
-            Tölts fel egy képet, rövid szöveget, vagy akár egy Youtube linket a kiválasztott napra!<br />
-            Azon a napon mindenki, aki rendelkezik a naptár URL-jével, látni fogja a feltöltésed.
-          </Text>
+          <Title>{isUnka ? 'Sharing is caring!' : 'Ajándékozni jó!'}</Title>
+          {isUnka ? (
+            <Text>
+              Upload an image, a short text, or even a YouTube url for the selected day! <br />
+              On that day everyone who knows the calendar's URL will see your present.
+            </Text>
+          ) : (
+            <Text>
+              Tölts fel egy képet, rövid szöveget, vagy akár egy Youtube linket a kiválasztott napra!<br />
+              Azon a napon mindenki, aki rendelkezik a naptár URL-jével, látni fogja a feltöltésed.
+            </Text>
+          )}
 
           <DaySelector
             selectedDay={selectedDay}
@@ -275,16 +283,17 @@ export default function UploadForm({
               onImageAdded={handleImageAdded}
               onImageRemoved={handleImageRemoved}
               image={image}
+              isUnka={isUnka}
             />
             <div>
-              <Textarea rows={5} ref={contentRef} onInput={resetError} placeholder="Vagy írj üzenetet!"></Textarea>
+              <Textarea rows={5} ref={contentRef} onInput={resetError} placeholder={isUnka ? 'Or write a message!' : "Vagy írj üzenetet!"}></Textarea>
             </div>
           </Row>
 
-          <Label htmlFor="usernameField">És ha szeretnéd a neved is megadhatod</Label>
-          <Nameinput id="usernameField" type="text" value={username} placeholder="névtelen ajándékozó" onChange={handleNameChange} />
+          <Label htmlFor="usernameField">{isUnka ? 'You can optionally enter your name' : 'És ha szeretnéd a neved is megadhatod'}</Label>
+          <Nameinput id="usernameField" type="text" value={username} placeholder={isUnka ? 'anonymous' : "névtelen ajándékozó"} onChange={handleNameChange} />
 
-          <SubmitButton onClick={handleSubmit}>Mehet</SubmitButton>
+          <SubmitButton onClick={handleSubmit}>{isUnka ? 'Send' : 'Mehet'}</SubmitButton>
           {error && (
             <ErrorDisplay>
               {error}
@@ -292,7 +301,7 @@ export default function UploadForm({
           )}
           {myPresents.length > 0 && (
             <>
-              <ListHeader>Erről az eszközről korábban feltöltött ajándékaid:</ListHeader>
+              <ListHeader>{isUnka ? 'Your previous uploads from this device:' : 'Erről az eszközről korábban feltöltött ajándékaid:'}</ListHeader>
               <List>
                 {myPresents.sort((a, b) => a.day - b.day).map(present => (
                   <PresentListItem key={present.uuid} present={present} onDelete={() => handleDelete(present)} />
