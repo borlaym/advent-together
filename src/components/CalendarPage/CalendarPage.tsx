@@ -157,8 +157,8 @@ export default function CalendarPage() {
 
         {isUnka ?
           <>
-          <p>Welcome to our shared online Advent calendar! Upload a surprise or two to share, and check back every day for a new surprise!</p>
-          <p>If you want to create another calendar for another group, click here! (🇭🇺 only)<br /> Upload a picture, short text, or a Youtube link for the chosen day! On that day everyone who checks this calendar will see your upload.</p>
+          <p>Welcome to our shared online Advent calendar! <InlineButton onClick={openUploadForm}>Upload</InlineButton> a surprise or two to share, and check back every day for a new surprise!</p>
+          <p>If you want to create another calendar for another group, <Link to="/">click here</Link>! (🇭🇺 only)<br /> Upload a picture, short text, or a Youtube link for the chosen day! On that day everyone who checks this calendar will see your upload.</p>
           </>
         :
           <>

@@ -50,7 +50,8 @@ export const InlineButton = styled.button`
   outline: none;
   border: none;
   border-radius: 3px;
-  padding: 0.3em;
+  padding: 0.2em 0.3em;
+  cursor: pointer;
 
   font-family: inherit;
   box-shadow: 2px 2px 17px 0px #0000005c;
