@@ -6,7 +6,7 @@ export const DOOR_ANIMATION_LENGTH = 800; // in ms
 const DOOR_OPENING_DEGREES = { // in deg
   open: 70,
   closed: 0,
-  opened: 5,
+  opened: 0,
   unopenable: 35
 };
 
@@ -31,7 +31,7 @@ const DayContainer = styled.div<{
   height: var(--size);
 
   margin-top: 0;
-  margin-right: 0;
+  margin-left: 0;
   margin-right: var(--margin);
   margin-bottom: var(--margin);
 
@@ -88,6 +88,7 @@ const Door = styled.div<{ openingDegree: number; doubleDoor?: 'left' | 'right' }
   position: absolute;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
 
   display: flex;
   align-items: center;
