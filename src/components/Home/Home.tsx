@@ -67,7 +67,6 @@ const Input = styled.input`
   &::placeholder {
     color: rgba(10 10 10 / 0.5);
     text-align: center;
-    padding-top: calc(50% - 10px);
   }
 
   &:active, &:focus {
