@@ -1,11 +1,12 @@
 :root {
-  --size: 170px;
-  --margin: 10px;
+  --size: 200px;
+  --margin: 20px;
 }
-@media screen and (min-width: 440px) {
+
+@media screen and (max-width: 440px) {
   :root {
-    --size: 200px;
-    --margin: 20px;
+    --size: 170px;
+    --margin: 10px;
   }
 }
 
