@@ -286,7 +286,7 @@ export default function UploadForm({
               isUnka={isUnka}
             />
             <div>
-              <Textarea rows={5} ref={contentRef} onInput={resetError} placeholder={isUnka ? 'Or write a message!' : "Vagy írj üzenetet!"}></Textarea>
+              <Textarea rows={5} ref={contentRef} onInput={resetError} placeholder={isUnka ? 'Write a message!' : "Írj üzenetet!"}></Textarea>
             </div>
           </Row>
 
