@@ -225,7 +225,7 @@ export default function Presentation({
 
   // paging related
   const sliderRef = useRef<HTMLDivElement | null>(null);
-  const [hasNextPage, setHasNextPage] = useState(presents.length > 0);
+  const [hasNextPage, setHasNextPage] = useState(presents.length > 1);
   const [hasPrevPage, setHasPrevPage] = useState(false);
 
   function getCurrentIndex() {
