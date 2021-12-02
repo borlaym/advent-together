@@ -30,7 +30,11 @@ const DayContainer = styled.div<{
   width: var(--size);
   height: var(--size);
 
-  margin: 0 var(--margin) var(--margin) 0;
+  margin-top: 0;
+  margin-right: 0;
+  margin-right: var(--margin);
+  margin-bottom: var(--margin);
+
   box-sizing: border-box;
   border-radius: 5px;
   cursor: pointer;
