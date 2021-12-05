@@ -5,7 +5,7 @@
 
 @media screen and (max-width: 440px) {
   :root {
-    --size: 170px;
+    --size: 160px;
     --margin: 10px;
   }
 }
