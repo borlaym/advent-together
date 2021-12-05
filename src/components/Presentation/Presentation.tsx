@@ -173,6 +173,7 @@ const Lower = styled.div`
 `
 
 const PagerWrapper = styled.div`
+  pointer-events: none;
   // at the bottom of modal
   position: absolute;
   bottom: 0px;
@@ -193,6 +194,7 @@ const PagerWrapper = styled.div`
 `;
 
 const PagerButton = styled.a<{ enabled: boolean }>`
+  pointer-events: all;
   color: #479e6b;
   text-shadow: 1px 3px 1px #62626261;
   font-size: 10em;
