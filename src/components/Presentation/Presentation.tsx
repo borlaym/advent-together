@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useState, useRef, useEffect } from "react"
+import React, { useContext, useCallback, useState, useRef, useEffect, useMemo } from "react"
 import styled, { css } from "styled-components";
 import debounce from 'lodash/debounce';
 import useLinkifyUrls, { parseYoutube } from "../../utils/linkify";
@@ -223,7 +223,19 @@ export default function Presentation({
   onClose
 }: Props) {
   const { calendarData } = useContext(StateContext);
-  const presents = calendarData.presents.filter(p => p.day === dayNumber);
+  const presents = useMemo(() => {
+    const manualPresents = calendarData.presents.filter(p => p.day === dayNumber);
+    if (dayNumber === 23) {
+      return [...manualPresents, {
+        uuid: 'google-form',
+        day: 23,
+        uploader: 'adventi.site',
+        uploaderName: 'Az adventi.site csapata',
+        content: 'Köszönjük, hogy használtátok az Adventi Naptárat! Hogy jövőre még jobb legyen, mondd el róla a véleményed ezen az űrlapon: https://docs.google.com/forms/d/e/1FAIpQLSeAsAFE5ONjX3mhrFP0A777g_cq_xE3HFwn7ufZZEU4BsTUoQ/viewform?usp=sf_link Mindenkinek kellemes ünnepeket kívánunk!'
+      }];
+    }
+    return manualPresents
+  }, [calendarData.presents, dayNumber]);
 
   // paging related
   const sliderRef = useRef<HTMLDivElement | null>(null);
